@@ -69,7 +69,7 @@ def parse_line(row, line):
 with Path(sys.argv[1]).open() as input_file:
     str_line = input_file.readline()
     while str_line != '':
-        lines.append(list(str_line.strip()))
+        lines.append(str_line.strip())
         str_line = input_file.readline()
 
 for row, line in enumerate(lines):
