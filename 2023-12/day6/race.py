@@ -2,7 +2,7 @@
 
 from pathlib import Path
 import re
-import sys
+
 
 def ways_to_win(time, record):
     ways = 0
@@ -27,10 +27,7 @@ def part_two(file):
     ways = 1
     with Path(file).open() as input_file:
         times = [int(re.sub(r'\s+', '', input_file.readline().split(':')[1]))]
-        records = [int(re.sub(r'\s+', '', input_file.readline().split(':')[1]))]
+        recs = [int(re.sub(r'\s+', '', input_file.readline().split(':')[1]))]
     for i, time in enumerate(times):
-        ways *= ways_to_win(time, records[i])
+        ways *= ways_to_win(time, recs[i])
     print("Ways to win: " + str(ways))
-
-
-part_two(sys.argv[1])
