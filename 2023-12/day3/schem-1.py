@@ -12,7 +12,7 @@ class SchemNumber:
         self.length = length
 
     def __str__(self):
-        return f'Schem[{self.number}, ({self.row}, {self.col}), {self.length}]'
+        return f"Schem[{self.number}, ({self.row}, {self.col}), {self.length}]"
 
 
 value = 0
@@ -21,12 +21,12 @@ lines = []
 
 
 def check(row, col):
-   if row > -1 and row < len(lines):
-       line = lines[row]
-       if col > -1 and col < len(line):
-           value = line[col]
-           return not value.isdigit() and value != '.'
-   return False
+    if row > -1 and row < len(lines):
+        line = lines[row]
+        if col > -1 and col < len(line):
+            value = line[col]
+            return not value.isdigit() and value != "."
+    return False
 
 
 def symbol_search(schem):
@@ -52,7 +52,9 @@ def parse_line(row, line):
             if c.isdigit():
                 num_str += c
             else:
-                schem_numbers.append(SchemNumber(int(num_str), row, num_start, len(num_str)))
+                schem_numbers.append(
+                    SchemNumber(int(num_str), row, num_start, len(num_str))
+                )
                 num_state = False
                 num_str = ""
         else:
@@ -68,15 +70,15 @@ def parse_line(row, line):
 
 with Path(sys.argv[1]).open() as input_file:
     str_line = input_file.readline()
-    while str_line != '':
+    while str_line != "":
         lines.append(str_line.strip())
         str_line = input_file.readline()
 
 for row, line in enumerate(lines):
     schem_numbers += parse_line(row, line)
 for schem in schem_numbers:
-    if(symbol_search(schem)):
-        print(f'Matched: {schem}')
+    if symbol_search(schem):
+        print(f"Matched: {schem}")
         value += schem.number
 
-print(f'Final result: {value}')
+print(f"Final result: {value}")

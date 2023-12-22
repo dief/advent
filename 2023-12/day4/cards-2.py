@@ -5,7 +5,7 @@ import re
 import sys
 
 
-line_pattern = re.compile(r'^\s*Card\s*\d+:\s*([^|]+)\|(.*)$')
+line_pattern = re.compile(r"^\s*Card\s*\d+:\s*([^|]+)\|(.*)$")
 games = []
 card_tracker = []
 
@@ -15,7 +15,7 @@ def score(num, game):
     for win_num in game[0]:
         if win_num in game[1]:
             score += 1
-    print(str(score) + ': ' + str(game))
+    print(str(score) + ": " + str(game))
     for card in range(num + 1, num + score + 1):
         card_tracker[card] += card_tracker[num]
 
@@ -29,9 +29,10 @@ def parse_line(line):
     if match:
         games.append((num_list(match.group(1)), num_list(match.group(2))))
 
+
 with Path(sys.argv[1]).open() as input_file:
     line = input_file.readline()
-    while line != '':
+    while line != "":
         parse_line(line)
         line = input_file.readline()
 
@@ -48,4 +49,4 @@ for cards in card_tracker:
     value += cards
 
 print(str(card_tracker))
-print(f'Final result: {value}')
+print(f"Final result: {value}")
