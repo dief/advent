@@ -46,3 +46,4 @@ venv.bak/
 
 # Editor
 *.swp
+.vscode
