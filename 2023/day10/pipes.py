@@ -1,14 +1,11 @@
 #! /usr/bin/env python
 
+import sys
+
 connect_east = ['S', '-', 'L', 'F']
 connect_west = ['S', '-', 'J', '7']
 connect_north = ['S', '|', 'L', 'J']
 connect_south = ['S', '|', 'F', '7']
-
-east_clear = ['-', '.']
-west_clear = ['-', '.']
-north_clear = ['|', '.']
-south_clear = ['|', '.']
 
 
 class NodeCrossings:
@@ -87,12 +84,12 @@ def start_type(start):
 
 def parse_nodes(input_file):
     nodes = []
-    line = input_file.readline()
+    line = input_file.readline().strip()
     row_num = 0
     while line != '':
         row = []
         col_num = 0
-        for c in list(line.strip()):
+        for c in list(line):
             if c == 'S':
                 node = Node(c, row_num, col_num, 0)
                 start = node
@@ -103,29 +100,12 @@ def parse_nodes(input_file):
         if len(row) > 0:
             nodes.append(row)
         row_num += 1
-        line = input_file.readline()
+        line = input_file.readline().strip()
     for row in nodes:
         for node in row:
             node.connect_neighbors(nodes)
     start.type = start_type(start)
     return (start, nodes)
-
-
-def print_types(nodes):
-    for row in nodes:
-        for node in row:
-            print(node.type, end='')
-        print()
-
-
-def print_distances(nodes):
-    for row in nodes:
-        for node in row:
-            if node.dist < 0:
-                print('.', end=' ')
-            else:
-                print(node.dist, end=' ')
-        print()
 
 
 def prepare_map(filename):
@@ -145,8 +125,6 @@ def prepare_map(filename):
 
 def part_one(filename):
     nodes = prepare_map(filename)
-    print_types(nodes)
-    print_distances(nodes)
     max_dist = 0
     for row in nodes:
         for node in row:
@@ -155,157 +133,14 @@ def part_one(filename):
     print('Farthest distance: ' + str(max_dist))
 
 
-def print_enclosed(nodes):
-    for row in nodes:
-        for node in row:
-            if node.type == '.' or not node.loop:
-                if node.enclosed:
-                    print('I', end='')
-                else:
-                    print('O', end='')
-            else:
-                print(node.type, end='')
-        print()
-
-
-def print_crossings(node_crossings):
-    print(f'{node_crossings.node} east: {node_crossings.east}')
-    print(f'{node_crossings.node} west: {node_crossings.west}')
-    print(f'{node_crossings.node} north: {node_crossings.north}')
-    print(f'{node_crossings.node} south: {node_crossings.south}')
-
-
-def check_east(origin, nodes, node_crossings):
+def enclosed(origin, nodes):
     crossings = 0
-    in_north = False
-    in_south = False
-    prev = origin.type
-    for col in range(origin.col + 1, len(nodes[0])):
-        node = nodes[origin.row][col].type
-        if in_north:
-            if node in ['|', 'J']:
-                crossings += 1
-                in_north = False
-            if node == 'L':
-                in_north = False
-                in_south = True
-        elif in_south:
-            if node in ['|', '7']:
-                crossings += 1
-                in_south = False
-            if node == 'F':
-                in_south = False
-                in_north = True
-        else:
-            if node == '|':
-                crossings += 1
-            if node in ['J', '7'] and prev in ['J', '7']:
-                crossings += 1
-            if node == 'F':
-                in_north = True
-            if node == 'L':
-                in_south = True
-        prev = node
-    node_crossings.east = crossings
-    return crossings % 2 == 1
-
-
-def check_west(origin, nodes, node_crossings):
-    crossings = 0
-    in_north = False
-    in_south = False
-    prev = origin.type
-    for col in reversed(range(0, origin.col)):
-        node = nodes[origin.row][col].type
-        if in_north:
-            if node in ['|', 'J', 'L']:
-                crossings += 1
-                in_north = False
-        elif in_south:
-            if node in ['|', 'F', '7']:
-                crossings += 1
-                in_south = False
-        else:
-            if node == '|':
-                crossings += 1
-            if node in ['F', 'L'] and prev in ['F', 'L']:
-                crossings += 1
-            if node == '7':
-                in_north = True
-            if node == 'J':
-                in_south = True
-        prev = node
-    node_crossings.west = crossings
-    return crossings % 2 == 1
-
-
-def check_north(origin, nodes, node_crossings):
-    crossings = 0
-    in_east = False
-    in_west = False
-    prev = origin.type
-    for row in reversed(range(0, origin.row)):
-        node = nodes[row][origin.col].type
-        if in_east:
-            if node in ['-', 'F']:
-                crossings += 1
-                in_east = False
-            if node == 'L':
-                in_east = False
-                in_west = True
-        elif in_west:
-            if node in ['-', '7']:
-                crossings += 1
-                in_west = False
-            if node == 'J':
-                in_east = False
-                in_west = True
-        else:
-            if node == '-':
-                crossings += 1
-            if node in ['F', '7'] and prev in ['F', '7']:
-                crossings += 1
-            if node == 'J':
-                in_east = True
-            if node == 'L':
-                in_west = True
-        prev = node
-    node_crossings.north = crossings
-    return crossings % 2 == 1
-
-
-def check_south(origin, nodes, node_crossings):
-    crossings = 0
-    in_east = False
-    in_west = False
-    prev = origin.type
-    for row in range(origin.row + 1, len(nodes)):
-        node = nodes[row][origin.col].type
-        if in_east:
-            if node in ['-', 'L']:
-                crossings += 1
-                in_east = False
-            if node == 'F':
-                in_east = False
-                in_west = True
-        elif in_west:
-            if node in ['-', 'J']:
-                crossings += 1
-                in_west = False
-            if node == '7':
-                in_west = False
-                in_east = True
-        else:
-            if node == '-':
-                crossings += 1
-            if node in ['J', 'L'] and prev in ['J', 'L']:
-                crossings += 1
-            if node == '7':
-                in_east = True
-            if node == 'F':
-                in_west = True
-        prev = node
-    node_crossings.south = crossings
+    x, y = origin.row + 1, origin.col + 1
+    while x < len(nodes) and y < len(nodes[0]):
+        if nodes[x][y].type not in ['L', '7', '.']:
+            crossings += 1
+        x += 1
+        y += 1
     return crossings % 2 == 1
 
 
@@ -313,26 +148,20 @@ def part_two(filename):
     in_count = 0
     out_count = 0
     nodes = prepare_map(filename)
-    crossings = []
     for row in nodes:
         for node in row:
             if not node.loop:
                 node.type = '.'
     for row in nodes:
-        crossings_row = []
-        crossings.append(crossings_row)
         for node in row:
-            crossing = NodeCrossings(node)
-            crossings_row.append(crossing)
             if node.type == '.':
-                east_in = check_east(node, nodes, crossing)
-                west_in = check_west(node, nodes, crossing)
-                north_in = check_north(node, nodes, crossing)
-                south_in = check_south(node, nodes, crossing)
-                if east_in and west_in and north_in and south_in:
+                if enclosed(node, nodes):
                     node.enclosed = True
                     in_count += 1
                 else:
                     out_count += 1
     print('Enclosed: ' + str(in_count))
     print('Not enclosed: ' + str(out_count))
+
+
+part_two(sys.argv[1])
