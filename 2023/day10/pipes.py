@@ -162,6 +162,3 @@ def part_two(filename):
                     out_count += 1
     print('Enclosed: ' + str(in_count))
     print('Not enclosed: ' + str(out_count))
-
-
-part_two(sys.argv[1])
