@@ -4,7 +4,6 @@
     <groupId>com.leynmaster</groupId>
     <artifactId>advent-2023</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
     <url>https://www.leynmaster.com</url>
     <properties>
         <maven.compiler.release>22</maven.compiler.release>
