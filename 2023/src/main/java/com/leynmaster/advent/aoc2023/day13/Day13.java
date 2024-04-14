@@ -47,8 +47,8 @@ public class Day13 {
 
     private static class LavaMap {
         private final char[][] mapMatrix;
-        int rows;
-        int columns;
+        private final int rows;
+        private final int columns;
 
         LavaMap(List<char[]> lines) {
             mapMatrix = lines.toArray(new char[0][]);
