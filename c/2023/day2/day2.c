@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define INPUT_FILE "../../../inputs/2023/day2/input.txt"
 #define MAX_LINE_LEN 1024
 #define MAX_ROUNDS 128
 
@@ -40,11 +41,13 @@ void get_cubes(char* cube_str, int cubes[])
     }
 }
 
-void get_max_cubes(char *cube_str, int max_cubes[])
+/* void get_max_cubes(char *round_strs[], int round_count, int max_cubes[])
 {
     int i, round_cnt = 0, cubes[3];
-    char *token, buf[MAX_LINE_LEN], rounds[MAX_ROUNDS][128];
-    strcpy(buf, cube_str);
+    char *token, rounds[MAX_ROUNDS][128];
+    for (i = 0; i < round_count; i++) {
+
+    }
     token = strtok(buf, ";");
     while (token != NULL) {
         while (*token == ' ')
@@ -73,32 +76,64 @@ void get_max_cubes(char *cube_str, int max_cubes[])
             max_cubes[RED] = cubes[RED];
         }
     }
-}
+} */
 
-int parse_line(char* line)
+void parse_line(char* line, int max_cubes[])
 {
-    int cubes[3], result, game_num = atoi(line + 5);
-    char *cube_str = strchr(lines, ':');
-    if (cube_str == NULL)
+    int i, count = 0, cubes[3];
+    char *cube_str = strchr(line, ':') + 2;
+    char *token = strtok(cube_str, ";");
+    char rounds[MAX_ROUNDS][MAX_LINE_LEN];
+    max_cubes[BLUE] = 0;
+    max_cubes[GREEN] = 0;
+    max_cubes[RED] = 0;
+    while (token != NULL)
     {
-        return 0;
+        while (*token == ' ')
+        {
+            token++;
+        }
+        strcpy(rounds[count++], token);
+        token = strtok(NULL, ";");
     }
-    cube_str += 2;
-    get_max_cubes(cube_str, cubes);
-    return cubes[BLUE] < 15 && cubes[GREEN] < 14 && cubes[RED] < 13 ? game_num : 0;
+    for (i = 0; i < count; i++)
+    {
+        get_cubes(rounds[i], cubes);
+        if (cubes[BLUE] > max_cubes[BLUE])
+        {
+            max_cubes[BLUE] = cubes[BLUE];
+        }
+        if (cubes[GREEN] > max_cubes[GREEN])
+        {
+            max_cubes[GREEN] = cubes[GREEN];
+        }
+        if (cubes[RED] > max_cubes[RED])
+        {
+            max_cubes[RED] = cubes[RED];
+        }
+    }
+    //get_max_cubes(cube_str, cubes);
+    //return cubes[BLUE] < 15 && cubes[GREEN] < 14 && cubes[RED] < 13 ? game_num : 0;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
-    int value = 0;
     FILE* input;
-    char line_buf[MAX_LINE_LEN + 2];
-    input = fopen(argv[1], "r");
-    while (fgets(line_buf, MAX_LINE_LEN, input) != NULL) {
-       line_buf[strlen(line_buf) - 1] = '\0';
-       value += parse_line(line_buf);
+    int part1 = 0, part2 = 0, game_num = 0, max_cubes[3];
+    char line[MAX_LINE_LEN + 2];
+    input = fopen(INPUT_FILE, "r");
+    while (fgets(line, MAX_LINE_LEN, input) != NULL) {
+        line[strlen(line) - 1] = '\0';
+        if (strlen(line) > 0)
+        {
+            game_num++;
+            parse_line(line, max_cubes);
+            part1 += max_cubes[BLUE] < 15 && max_cubes[GREEN] < 14 && max_cubes[RED] < 13 ? game_num : 0;
+            part2 += max_cubes[BLUE] * max_cubes[GREEN] * max_cubes[RED];
+        }
     }
     fclose(input);
-    printf("Final value: %d\n", value);
+    printf("Part 1: %d\n", part1);
+    printf("Part 2: %d\n", part2);
 }
 
