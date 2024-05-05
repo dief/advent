@@ -4,12 +4,13 @@
 #include <string.h>
 
 #define INPUT_FILE "../../../inputs/2023/day1/input.txt"
-#define MAX_LINE_LEN 1024
+#define MAX_LEN 1024
 
-char *search[] = { "zero", "one", "two", "three", "four", "five", "six",
-                    "seven", "eight", "nine" };
+char *search[] = {"zero", "one", "two", "three", "four", "five", "six",
+                  "seven", "eight", "nine"};
 
-int get_digit(char* str, int text_num) {
+int get_digit(char *str, int text_num)
+{
     int i;
     char buf[2];
     if (isdigit(str[0]))
@@ -30,9 +31,10 @@ int get_digit(char* str, int text_num) {
     return -1;
 }
 
-int parse_line(char* line, int text_num) {
+int parse_line(char *line, int text_num)
+{
     int value = 0, first_num = -1, second_num = -1;
-    char* iter = line;
+    char *iter = line;
     while (*iter != '\0')
     {
         int digit = get_digit(iter, text_num);
@@ -53,37 +55,43 @@ int parse_line(char* line, int text_num) {
     {
         return 0;
     }
-    if (second_num < 0) {
+    if (second_num < 0)
+    {
         second_num = first_num;
     }
     return first_num * 10 + second_num;
 }
 
-int part_one() {
+int part_one()
+{
     int value = 0;
-    FILE* input;
-    char line_buf[MAX_LINE_LEN + 1];
+    FILE *input;
+    char line_buf[MAX_LEN + 1];
     input = fopen(INPUT_FILE, "r");
-    while (fgets(line_buf, MAX_LINE_LEN, input) != NULL) {
-       value += parse_line(line_buf, 0);
+    while (fgets(line_buf, MAX_LEN, input) != NULL)
+    {
+        value += parse_line(line_buf, 0);
     }
     fclose(input);
     return value;
 }
 
-int part_two() {
+int part_two()
+{
     int value = 0;
-    FILE* input;
-    char line_buf[MAX_LINE_LEN + 1];
+    FILE *input;
+    char line_buf[MAX_LEN + 1];
     input = fopen(INPUT_FILE, "r");
-    while (fgets(line_buf, MAX_LINE_LEN, input) != NULL) {
-       value += parse_line(line_buf, 1);
+    while (fgets(line_buf, MAX_LEN, input) != NULL)
+    {
+        value += parse_line(line_buf, 1);
     }
     fclose(input);
     return value;
 }
 
-int main() {
+int main()
+{
     printf("Part 1: %d\n", part_one());
     printf("Part 2: %d\n", part_two());
 }

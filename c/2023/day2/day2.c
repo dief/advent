@@ -41,43 +41,6 @@ void get_cubes(char* cube_str, int cubes[])
     }
 }
 
-/* void get_max_cubes(char *round_strs[], int round_count, int max_cubes[])
-{
-    int i, round_cnt = 0, cubes[3];
-    char *token, rounds[MAX_ROUNDS][128];
-    for (i = 0; i < round_count; i++) {
-
-    }
-    token = strtok(buf, ";");
-    while (token != NULL) {
-        while (*token == ' ')
-        {
-            token++;
-        }
-        strcpy(rounds[round_cnt++], token);
-        token = strtok(NULL, ";");
-    }
-    max_cubes[BLUE] = 0;
-    max_cubes[GREEN] = 0;
-    max_cubes[RED] = 0;
-    for (i = 0; i < round_cnt; i++)
-    {
-        get_cubes(rounds[i], cubes);
-        if (cubes[BLUE] > max_cubes[BLUE])
-        {
-            max_cubes[BLUE] = cubes[BLUE];
-        }
-        if (cubes[GREEN] > max_cubes[GREEN])
-        {
-            max_cubes[GREEN] = cubes[GREEN];
-        }
-        if (cubes[RED] > max_cubes[RED])
-        {
-            max_cubes[RED] = cubes[RED];
-        }
-    }
-} */
-
 void parse_line(char* line, int max_cubes[])
 {
     int i, count = 0, cubes[3];
@@ -112,8 +75,6 @@ void parse_line(char* line, int max_cubes[])
             max_cubes[RED] = cubes[RED];
         }
     }
-    //get_max_cubes(cube_str, cubes);
-    //return cubes[BLUE] < 15 && cubes[GREEN] < 14 && cubes[RED] < 13 ? game_num : 0;
 }
 
 int main()
@@ -136,4 +97,3 @@ int main()
     printf("Part 1: %d\n", part1);
     printf("Part 2: %d\n", part2);
 }
-
