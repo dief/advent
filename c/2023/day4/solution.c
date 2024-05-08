@@ -85,7 +85,7 @@ int main()
     FILE *input = fopen(INPUT_FILE, "r");
     char line[MAX_LEN];
     char *winning, *numbers;
-    int i, j, len;
+    int len;
     while (fgets(line, MAX_LEN, input) != NULL)
     {
         len = strlen(line);
