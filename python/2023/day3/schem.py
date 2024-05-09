@@ -16,14 +16,23 @@ class SchemNumber:
 
 value = 0
 schem_numbers = []
-lines = []
+grid = []
+gear_map = {}
 
 
-def check(row, col):
-    if row > -1 and row < len(lines):
-        line = lines[row]
-        if col > -1 and col < len(line):
+def check(schem, row, col):
+    if 0 <= row < len(grid):
+        line = grid[row]
+        if 0 <= col < len(line):
             value = line[col]
+            if value == "*":
+                key = f"{row}-{col}"
+                if key in gear_map:
+                    gear_schems = gear_map[key]
+                else:
+                    gear_schems = []
+                gear_schems.append(schem)
+                gear_map[key] = gear_schems
             return not value.isdigit() and value != "."
     return False
 
@@ -33,51 +42,55 @@ def symbol_search(schem):
     down = schem.row + 1
     left = schem.col - 1
     right = schem.col + schem.length
+    found = False
     for col in range(left, right + 1):
-        if check(up, col) or check(down, col):
-            return True
-    if check(schem.row, left) or check(schem.row, right):
-        return True
-    return False
+        found = found or check(schem, up, col)
+        found = found or check(schem, down, col)
+    found = found or check(schem, schem.row, left)
+    found = found or check(schem, schem.row, right)
+    return found
 
 
 def parse_line(row, line):
     schem_numbers = []
     num_state = False
     num_start = -1
-    num_str = ""
+    str = ""
     for col, c in enumerate(line):
         if num_state:
             if c.isdigit():
-                num_str += c
+                str += c
             else:
                 schem_numbers.append(
-                    SchemNumber(int(num_str), row, num_start, len(num_str))
+                    SchemNumber(int(str), row, num_start, len(str))
                 )
                 num_state = False
-                num_str = ""
+                str = ""
         else:
             if c.isdigit():
                 num_state = True
                 num_start = col
-                num_len = 1
-                num_str = c
+                str = c
     if num_state:
-        schem_numbers.append(SchemNumber(int(num_str), row, num_start, len(num_str)))
+        schem_numbers.append(SchemNumber(int(str), row, num_start, len(str)))
     return schem_numbers
 
 
 with Path("../../../inputs/2023/day3/input.txt").open() as input_file:
     str_line = input_file.readline()
     while str_line != "":
-        lines.append(str_line.strip())
+        grid.append(str_line.strip())
         str_line = input_file.readline()
 
-for row, line in enumerate(lines):
+part1 = 0
+part2 = 0
+for row, line in enumerate(grid):
     schem_numbers += parse_line(row, line)
 for schem in schem_numbers:
     if symbol_search(schem):
-        print(f"Matched: {schem}")
-        value += schem.number
-
-print(f"Final result: {value}")
+        part1 += schem.number
+for gear, schems in gear_map.items():
+    if len(schems) == 2:
+        part2 += schems[0].number * schems[1].number
+print(f"Part 1: {part1}")
+print(f"Part 2: {part2}")

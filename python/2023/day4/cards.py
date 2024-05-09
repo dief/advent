@@ -2,22 +2,25 @@
 
 from pathlib import Path
 import re
-import sys
 
 
 line_pattern = re.compile(r"^\s*Card\s*\d+:\s*([^|]+)\|(.*)$")
 games = []
+card_tracker = []
 
 
-def score(game):
+def get_score(num, game):
     score = 0
+    matches = 0
     for win_num in game[0]:
         if win_num in game[1]:
+            matches += 1
             if score == 0:
                 score = 1
             else:
                 score *= 2
-    print(str(score) + ": " + str(game))
+    for card in range(num + 1, num + matches + 1):
+        card_tracker[card] += card_tracker[num]
     return score
 
 
@@ -31,13 +34,21 @@ def parse_line(line):
         games.append((num_list(match.group(1)), num_list(match.group(2))))
 
 
-value = 0
-with Path(sys.argv[1]).open() as input_file:
+with Path("../../../inputs/2023/day4/input.txt").open() as input_file:
     line = input_file.readline()
     while line != "":
         parse_line(line)
         line = input_file.readline()
+for num in range(len(games)):
+    card_tracker.append(1)
 
+part1 = 0
+part2 = 0
+num = 0
 for game in games:
-    value += score(game)
-print(f"Final result: {value}")
+    part1 += get_score(num, game)
+    num += 1
+for cards in card_tracker:
+    part2 += cards
+print(f"Part 1: {part1}")
+print(f"Part 2: {part2}")

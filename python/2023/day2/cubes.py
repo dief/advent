@@ -2,7 +2,6 @@
 
 from pathlib import Path
 import re
-import sys
 
 line_pattern = re.compile(r"^\s*Game\s*(\d+):\s*(.*)$")
 color_pattern = re.compile(r"^\s*(\d+)\s*(\w+)\s*$")
@@ -19,7 +18,7 @@ def parse_round(round_str):
     return cubes
 
 
-def parse_line(line):
+def get_max_cubes(line):
     max_cubes = {"blue": 0, "green": 0, "red": 0}
     line_match = line_pattern.match(line)
     if line_match:
@@ -33,20 +32,24 @@ def parse_line(line):
                 max_cubes["green"] = cubes["green"]
             if cubes["red"] > max_cubes["red"]:
                 max_cubes["red"] = cubes["red"]
+        return game_num, max_cubes
+    return None
+
+
+value = 0
+with Path("../../../inputs/2023/day2/input.txt").open() as input_file:
+    line = input_file.readline()
+    part1 = 0
+    part2 = 0
+    while line.strip() != "":
+        game_num, max_cubes = get_max_cubes(line)
         max_blue = max_cubes["blue"]
         max_green = max_cubes["green"]
         max_red = max_cubes["red"]
         if max_blue < 15 and max_green < 14 and max_red < 13:
-            return game_num
-    return 0
-
-
-value = 0
-with Path(sys.argv[1]).open() as input_file:
-    line = input_file.readline()
-    while line != "":
-        num = parse_line(line)
-        value += num
+            part1 += game_num
+        part2 += max_blue * max_green * max_red
         line = input_file.readline()
 
-print(f"Final result: {value}")
+print(f"Part 1: {part1}")
+print(f"Part 2: {part2}")
