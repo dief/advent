@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 
 from pathlib import Path
-import sys
 
 number_strs = [
     "zero",
@@ -17,22 +16,23 @@ number_strs = [
 ]
 
 
-def parse_num(i, c, line):
+def parse_num(i, c, line, number_words):
     if c.isdigit():
         return int(c)
-    num = 0
-    for num_str in number_strs:
-        if line[i:].startswith(num_str):
-            return num
-        num += 1
+    if number_words:
+        num = 0
+        for num_str in number_strs:
+            if line[i:].startswith(num_str):
+                return num
+            num += 1
     return -1
 
 
-def parse_line(line):
+def parse_line(line, number_words):
     first_num = -1
     second_num = -1
     for i, c in enumerate(line):
-        value = parse_num(i, c, line)
+        value = parse_num(i, c, line, number_words)
         if value >= 0:
             if first_num < 0:
                 first_num = value
@@ -45,11 +45,12 @@ def parse_line(line):
     return first_num * 10 + second_num
 
 
-value = 0
-with Path(sys.argv[1]).open() as input_file:
+part1 = 0
+part2 = 0
+with Path("../../../inputs/2023/day1/input.txt").open() as input_file:
     inputs = input_file.readlines()
 for line in inputs:
-    num = parse_line(line)
-    # print(str(num) + ": " + line)
-    value += num
-print(f"Final result: {value}")
+    part1 += parse_line(line, False)
+    part2 += parse_line(line, True)
+print(f"Part 1: {part1}")
+print(f"Part 2: {part2}")

@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 
 from pathlib import Path
-import sys
 
 
 class SchemNumber:
@@ -68,7 +67,7 @@ def parse_line(row, line):
     return schem_numbers
 
 
-with Path(sys.argv[1]).open() as input_file:
+with Path("../../../inputs/2023/day3/input.txt").open() as input_file:
     str_line = input_file.readline()
     while str_line != "":
         lines.append(str_line.strip())
