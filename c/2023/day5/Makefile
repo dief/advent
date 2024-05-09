@@ -1,7 +1,7 @@
 CFLAGS = -O -Wall -Werror -Wextra
 INC_DIR = -I../../common
 LIB_DIR = -L../../common
-LIBS = -ldcp_time
+LIBS = -ldcp_logger
 
 all: day5.out
 

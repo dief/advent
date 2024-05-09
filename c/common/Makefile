@@ -1,12 +1,12 @@
 CFLAGS = -O -Wall -Werror -Wextra
 
-all: libdcp_time.a
+all: libdcp_logger.a
 
-dcp_time.o: dcp_time.c
-	gcc $(CFLAGS) -c dcp_time.c dcp_time.h
+dcp_logger.o: dcp_logger.c
+	gcc $(CFLAGS) -c dcp_logger.c dcp_logger.h
 
-libdcp_time.a: dcp_time.o
-	ar rcs libdcp_time.a dcp_time.o
+libdcp_logger.a: dcp_logger.o
+	ar rcs libdcp_logger.a dcp_logger.o
 
 clean:
 	rm -f *.a *.o *.gch

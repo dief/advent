@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include <dcp_time.h>
+#include <dcp_logger.h>
 
 #define INPUT_FILE "../../../inputs/2023/day5/input.txt"
 #define MAX_LEN 256
@@ -157,19 +157,14 @@ int main()
 {
     FILE *input = fopen(INPUT_FILE, "r");
     int i, seed_count = 0;
-    long long value, seeds[MAX_LEN];
+    long long seeds[MAX_LEN];
     seed_count = get_seeds(input, seeds);
     for (i = 0; i < SEED_MAPS; i++)
     {
         add_ranges(input, i);
     }
-    log_time();
-    printf("Starting\n");
-    value = part_one(seeds, seed_count);
-    log_time();
-    printf("Part 1: %lld\n", value);
-    value = part_two(seeds, seed_count);
-    log_time();
-    printf("Part 2: %lld\n", value);
+    dcp_log("Starting");
+    dcp_log("Part 1: %lld", part_one(seeds, seed_count));
+    dcp_log("Part 2: %lld", part_two(seeds, seed_count));
     return 0;
 }
