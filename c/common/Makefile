@@ -2,7 +2,7 @@ CFLAGS = -O -Wall -Werror -Wextra
 
 all: libdcp_logger.a
 
-dcp_logger.o: dcp_logger.c
+dcp_logger.o: dcp_logger.c dcp_logger.h
 	gcc $(CFLAGS) -c dcp_logger.c dcp_logger.h
 
 libdcp_logger.a: dcp_logger.o
