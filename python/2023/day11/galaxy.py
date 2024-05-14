@@ -42,11 +42,9 @@ def distances(filename, rate):
         for h in galaxies[(i + 1):]:
             dist = abs(g[0] - h[0]) + abs(g[1] - h[1])
             total += dist
-    print(total)
+    return total
 
 
-file = 'input.txt'
-distances(file, 2)
-distances(file, 10)
-distances(file, 100)
-distances(file, 1_000_000)
+file = '../../../inputs/2023/day11/input.txt'
+print(f'Part 1: {distances(file, 2)}')
+print(f'Part 2: {distances(file, 1_000_000)}')
