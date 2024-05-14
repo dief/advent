@@ -12,7 +12,7 @@ class Condition {
     Condition(String str) {
         int split = str.indexOf(':');
         if (split < 0) {
-            check = (_) -> true;
+            check = _ -> true;
         } else {
             checkLabel = str.charAt(0);
             checkLess = str.charAt(1) == '<';

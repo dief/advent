@@ -62,7 +62,7 @@ def part_one(filename):
             # print(turn + ' -> ' + node.label)
         if node.label == "ZZZ":
             searching = False
-    print(f'Steps taken: {steps}')
+    print(f'Part 1: {steps}')
 
 
 def part_two(filename):
@@ -74,7 +74,7 @@ def part_two(filename):
         if key.endswith('A'):
             search_nodes.append(node)
     step_list = []
-    print("Starting nodes: " + str([str(node) for node in search_nodes]))
+    #print("Starting nodes: " + str([str(node) for node in search_nodes]))
     for start_node in search_nodes:
         node = start_node
         steps = 0
@@ -84,8 +84,6 @@ def part_two(filename):
             while i < len(path) and searching:
                 turn = path[i]
                 steps += 1
-                if steps % 100_000_000 == 0:
-                    print(steps)
                 i += 1
                 #print('Starting from ' + node.label)
                 if turn == 'L':
@@ -94,10 +92,11 @@ def part_two(filename):
                     node = node.right
                 #print(turn + ' -> ' + node.label)
                 searching = not node.label.endswith('Z')
-        print(str(start_node) + ": " + str(steps))
+        #print(str(start_node) + ": " + str(steps))
         step_list.append(steps)
-    print("Steps needed: " + str(lcm(*step_list)))
+    print("Part 2: " + str(lcm(*step_list)))
     #print(f'Steps taken: {steps}')
 
 
-part_two("input.txt")
+part_one("../../../inputs/2023/day8/input.txt")
+part_two("../../../inputs/2023/day8/input.txt")

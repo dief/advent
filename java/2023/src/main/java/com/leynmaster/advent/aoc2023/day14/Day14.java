@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class Day14 {
     private static final int LIMIT = 1_000_000_000;
-    private static final String INPUT_FILE = "inputs/day14/input.txt";
+    private static final String INPUT_FILE = "../../inputs/2023/day14/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Map<String, Score> seenMap = new HashMap<>();
     private final List<Score> scores = new ArrayList<>();
@@ -39,10 +39,9 @@ public class Day14 {
                 break;
             }
         }
-        int limitOffset = LIMIT - cycleStart - 1;
-        int cycles = limitOffset / cycleLength;
-        int scoreLocation = limitOffset - cycles * cycleLength + cycleStart;
+        int scoreLocation = LIMIT - (LIMIT - cycleStart - 1) / cycleLength * cycleLength - 1;
         logger.info("Part 2: {}", scores.get(scoreLocation).score());
+
     }
 
     private ReflectorDish createDish() throws IOException {

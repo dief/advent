@@ -86,7 +86,6 @@ def compute_winnings(hands):
         i += 1
         hand.rank = i
         winnings += i * hand.bid
-        print(str(hand))
     return winnings
 
 
@@ -104,3 +103,6 @@ def part_two(filename):
         del hand.card_counter['J']
         hand.score = hand_score(hand.card_counter, jokers)
     print(f'Total winnings: {compute_winnings(hands)}')
+
+part_one("../../../inputs/2023/day7/input.txt")
+part_two("../../../inputs/2023/day7/input.txt")

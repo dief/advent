@@ -14,7 +14,7 @@ import java.util.*;
  * @author David Charles Pollack
  */
 public class Day12 {
-    private static final String INPUT_FILE = "inputs/day12/input.txt";
+    private static final String INPUT_FILE = "../../inputs/2023/day12/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final BufferedReader reader;
 
@@ -68,7 +68,6 @@ public class Day12 {
         }
 
         public long paths() {
-            logger.info("Line {} - part {}", lineNum, append > 0 ? 2 : 1);
             return paths(0, 0);
         }
 
