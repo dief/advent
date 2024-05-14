@@ -1,0 +1,15 @@
+CFLAGS = -O -Wall -Werror -Wextra
+
+all: day10.out
+
+day10.out: solution.o map.o
+	gcc -o day10.out solution.o map.o
+
+solution.o: solution.c
+	gcc $(CFLAGS) -c solution.c
+
+map.o: map.c map.h
+	gcc $(CFLAGS) -c map.c map.h
+
+clean:
+	rm -f day10.out *.o *.gch
