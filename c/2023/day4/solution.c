@@ -104,6 +104,7 @@ int main()
             num_cards++;
         }
     }
+    fclose(input);
     printf("Part 1: %d\n", part_one());
     printf("Part 2: %d\n", part_two());
 }

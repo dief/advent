@@ -24,18 +24,17 @@ public class Day12 {
 
     public void run() throws IOException {
         String line;
-        int lineNum = 0;
         long part1 = 0;
         long part2 = 0;
         while ((line = reader.readLine()) != null) {
-            part1 += new Springs(line, ++lineNum, 0).paths();
-            part2 += new Springs(line, lineNum, 4).paths();
+            part1 += new Springs(line, 0).paths();
+            part2 += new Springs(line, 4).paths();
         }
         logger.info("Part 1: {}", part1);
         logger.info("Part 2: {}", part2);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main() throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
             Day12 day = new Day12(reader);
             day.run();
@@ -43,17 +42,12 @@ public class Day12 {
     }
 
     private static class Springs {
-        private final Logger logger = LoggerFactory.getLogger(getClass());
         private final Map<IntPair, Long> cache = new HashMap<>();
         private final List<Integer> spans = new ArrayList<>();
-        private final int lineNum;
-        private final int append;
         private final String springStr;
         private final int strLen;
 
-        public Springs(String line, int lineNum, int append) {
-            this.lineNum = lineNum;
-            this.append = append;
+        public Springs(String line, int append) {
             String[] split = line.split("\\s+");
             String strSeed = split[0];
             StringBuilder buf = new StringBuilder(strSeed);

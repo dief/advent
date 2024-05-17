@@ -71,6 +71,7 @@ int main()
     }
     races = parse_numbers(line, distances);
     large_distance = parse_big_number(line);
+    fclose(input);
     for (i = 0; i < races; i++)
     {
         value *= ways_to_win(times[i], distances[i]);

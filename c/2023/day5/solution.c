@@ -163,6 +163,7 @@ int main()
     {
         add_ranges(input, i);
     }
+    fclose(input);
     dcp_log("Starting");
     dcp_log("Part 1: %lld", part_one(seeds, seed_count));
     dcp_log("Part 2: %lld", part_two(seeds, seed_count));

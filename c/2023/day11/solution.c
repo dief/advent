@@ -119,6 +119,7 @@ int main()
         }
         height++;
     }
+    fclose(input);
     printf("Part 1: %lld\n", expand(1));
     printf("Part 2: %lld\n", expand(999999));
     return 0;

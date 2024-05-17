@@ -17,6 +17,7 @@ int main()
             add_line(line, len - 1);
         }
     }
+    fclose(input);
     shape = calc_shape();
     len = shape.boundary / 2;
     printf("Part 1: %d\n", len);

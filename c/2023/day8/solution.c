@@ -92,6 +92,7 @@ int main()
             add_node(line);
         }
     }
+    fclose(input);
     printf("Part 1: %d\n", part_one(steps, num_steps));
     printf("Part 2: %lld\n", part_two(steps, num_steps));
 }
