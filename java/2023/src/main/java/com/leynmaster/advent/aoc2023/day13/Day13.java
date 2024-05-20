@@ -10,35 +10,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Day13 {
-    private static final String INPUT_FILE = "inputs/day13/input.txt";
+    private static final String INPUT_FILE = "../../inputs/2023/day13/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private int summary1;
     private int summary2;
 
     public void run() throws IOException {
+        int count = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
             List<char[]> lines = new ArrayList<>();
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.isBlank()) {
-                    processMap(lines);
+                    processMap(lines, count++);
                     lines.clear();
                 } else {
                     lines.add(line.toCharArray());
                 }
             }
             if (!lines.isEmpty()) {
-                processMap(lines);
+                processMap(lines, count++);
             }
         }
         logger.info("Part 1: {}", summary1);
         logger.info("Part 2: {}", summary2);
     }
 
-    private void processMap(List<char[]> lines) {
+    private void processMap(List<char[]> lines, int i) {
         LavaMap map = new LavaMap(lines);
         summary1 += map.summary(0);
-        summary2 += map.summary(1);
+        summary2 += map.summary(1);;
     }
 
     public static void main(String[] args) throws IOException {
