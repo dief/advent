@@ -15,4 +15,4 @@ springs.o: springs.c springs.h
 	gcc $(CFLAGS) $(INC_DIR) -c springs.c springs.h
 
 clean:
-	rm -f day12.out *.o *.gch
+	rm -f *.out *.o *.gch

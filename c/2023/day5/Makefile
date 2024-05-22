@@ -12,4 +12,4 @@ solution.o: solution.c
 	gcc $(INC_DIR) $(CFLAGS) -c solution.c
 
 clean:
-	rm -f day5.out *.o
+	rm -f *.out *.o

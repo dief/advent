@@ -9,4 +9,4 @@ solution.o: solution.c
 	gcc $(CFLAGS) -c solution.c
 
 clean:
-	rm -f day4.out *.o
+	rm -f *.out *.o

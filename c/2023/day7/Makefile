@@ -12,4 +12,4 @@ hand.o: hand.c hand.h
 	gcc $(CFLAGS) -c hand.c hand.h
 
 clean:
-	rm -f day7.out *.o *.gch
+	rm -f *.out *.o *.gch

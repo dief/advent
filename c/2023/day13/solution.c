@@ -86,4 +86,5 @@ int main()
     part2 += summary(matrix, row, strlen(matrix[0]), 1);
     printf("Part 1: %d\n", part1);
     printf("Part 2: %d\n", part2);
+    return 0;
 }

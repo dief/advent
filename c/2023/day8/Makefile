@@ -12,4 +12,4 @@ map.o: map.c map.h
 	gcc $(CFLAGS) -c map.c map.h
 
 clean:
-	rm -f day8.out *.o *.gch
+	rm -f *.out *.o *.gch

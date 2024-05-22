@@ -9,4 +9,4 @@ solution.o: solution.c
 	gcc $(CFLGS) -c solution.c
 
 clean:
-	rm -f day1.out *.o
+	rm -f *.out *.o

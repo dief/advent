@@ -1,16 +1,6 @@
 #include "dish.h"
 #define INPUT_FILE "../../../inputs/2023/day14/input.txt"
 
-void log_dish(Dish *dish)
-{
-    int i;
-    printf("Dish %d x %d\n", dish->rows, dish->columns);
-    for (i = 0; i < dish->rows; i++)
-    {
-        printf("%s\n", dish->grid[i]);
-    }
-}
-
 int weights_equal(DishWeight *w1, DishWeight *w2)
 {
     int i;
@@ -72,4 +62,5 @@ int main()
     dish_tilt(work);
     printf("Part 1: %d\n", dish_weight(work)->weight);
     printf("Part 2: %d\n", detect_cycle(dish));
+    return 0;
 }
