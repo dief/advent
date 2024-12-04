@@ -65,12 +65,9 @@ int part2(char* input, int len) {
                 in = 0;
             }
         }
-        else
+        else if (strncmp(input + i, "do()", 4) == 0)
         {
-            if (strncmp(input + i, "do()", 4) == 0)
-            {
-                in = 1;
-            }
+            in = 1;
         }
     }
     return total;
