@@ -3,3 +3,9 @@ input.txt
 
 # IntelliJ
 .idea/
+
+# VSCode
+*.code-workspace
+
+# Vim
+*.swp
