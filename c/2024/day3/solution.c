@@ -13,21 +13,29 @@ int mul(char* str) {
     if (strncmp(str, "mul(", 4) == 0) {
         i = start1 = 4;
         c = *(str + i);
-        while (c != ',') {
-            if (isdigit(c)) {
+        while (c != ',')
+        {
+            if (isdigit(c))
+            {
                 i++;
                 c = *(str + i);
-            } else {
+            }
+            else
+            {
                 return 0;
             }
         }
         i = start2 = i + 1;
         c = *(str + i);
-        while (c != ')') {
-            if (isdigit(c)) {
+        while (c != ')')
+        {
+            if (isdigit(c))
+            {
                 i++;
                 c = *(str + i);
-            } else {
+            }
+            else
+            {
                 return 0;
             }
         }
@@ -38,7 +46,8 @@ int mul(char* str) {
 
 int part1(char* input, int len) {
     int i, total = 0;
-    for (i = 0; i < len; i++) {
+    for (i = 0; i < len; i++)
+    {
         total += mul(input + i);
     }
     return total;
@@ -48,13 +57,18 @@ int part2(char* input, int len) {
     int i, total = 0, in = 1;
     for (i = 0; i < len; i++)
     {
-        if (in) {
+        if (in)
+        {
             total += mul(input + i);
-            if (strncmp(input + i, "don't()", 7) == 0) {
+            if (strncmp(input + i, "don't()", 7) == 0)
+            {
                 in = 0;
             }
-        } else {
-            if (strncmp(input + i, "do()", 4) == 0) {
+        }
+        else
+        {
+            if (strncmp(input + i, "do()", 4) == 0)
+            {
                 in = 1;
             }
         }
