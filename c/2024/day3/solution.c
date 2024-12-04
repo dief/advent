@@ -7,44 +7,47 @@
 #define MAX_LINE 4096
 #define MAX_BLOB MAX_LINE * 8
 
-int mul(char* str) {
-    char c;
-    int i, start1 = 0, start2 = 0;
+int mul(char *str) {
+    char *c, *start2;
     if (strncmp(str, "mul(", 4) == 0) {
-        i = start1 = 4;
-        c = *(str + i);
-        while (c != ',')
+        c = str + 4;
+        if (!isdigit(*c))
         {
-            if (isdigit(c))
+            return 0;
+        }
+        while (*c != ',')
+        {
+            if (isdigit(*c))
             {
-                i++;
-                c = *(str + i);
+                c++;
             }
             else
             {
                 return 0;
             }
         }
-        i = start2 = i + 1;
-        c = *(str + i);
-        while (c != ')')
+        start2 = ++c;
+        if (!isdigit(*c))
         {
-            if (isdigit(c))
+            return 0;
+        }
+        while (*c != ')')
+        {
+            if (isdigit(*c))
             {
-                i++;
-                c = *(str + i);
+                c++;
             }
             else
             {
                 return 0;
             }
         }
-        return atoi(str + start1) * atoi(str + start2);
+        return atoi(str + 4) * atoi(start2);
     }
     return 0;
 }
 
-int part1(char* input, int len) {
+int part1(char *input, int len) {
     int i, total = 0;
     for (i = 0; i < len; i++)
     {
@@ -53,7 +56,7 @@ int part1(char* input, int len) {
     return total;
 }
 
-int part2(char* input, int len) {
+int part2(char *input, int len) {
     int i, total = 0, in = 1;
     for (i = 0; i < len; i++)
     {
