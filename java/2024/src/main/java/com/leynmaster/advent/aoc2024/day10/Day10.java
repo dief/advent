@@ -70,20 +70,10 @@ public class Day10 {
         try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                list.add(map(line));
+                list.add(line.chars().map(Character::getNumericValue).toArray());
             }
         }
         Day10 solution = new Day10(list.toArray(new int[list.size()][]));
         solution.run();
-    }
-
-    private static int[] map(String line) {
-        char[] chars = line.toCharArray();
-        int size = chars.length;
-        int[] row = new int[size];
-        for (int i = 0; i < size; i++) {
-            row[i] = Character.isDigit(chars[i]) ? chars[i] - 48 : -1;
-        }
-        return row;
     }
 }
