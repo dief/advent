@@ -1,5 +1,6 @@
 package com.leynmaster.advent.aoc2024.day8;
 
+import com.leynmaster.advent.aoc2024.common.Coordinate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -128,6 +129,4 @@ public class Day8 {
         Day8 solution = new Day8(antennaMap, i, j);
         solution.run();
     }
-
-    record Coordinate(int x, int y) { }
 }
