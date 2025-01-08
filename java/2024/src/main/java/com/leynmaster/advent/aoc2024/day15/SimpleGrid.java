@@ -1,5 +1,7 @@
 package com.leynmaster.advent.aoc2024.day15;
 
+import com.leynmaster.advent.aoc2024.common.Direction;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,10 +31,10 @@ public class SimpleGrid {
         return score;
     }
 
-    void run(List<Step> steps) {
+    void run(List<Direction> steps) {
         int x = startX;
         int y = startY;
-        for (Step step : steps) {
+        for (Direction step : steps) {
             if (move(x, y, step)) {
                 x += step.getDeltaX();
                 y += step.getDeltaY();
@@ -40,7 +42,7 @@ public class SimpleGrid {
         }
     }
 
-    private boolean move(int x, int y, Step step) {
+    private boolean move(int x, int y, Direction step) {
         int deltaX = step.getDeltaX();
         int deltaY = step.getDeltaY();
         int nextX = x + deltaX;

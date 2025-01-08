@@ -1,6 +1,7 @@
 package com.leynmaster.advent.aoc2024.day15;
 
 import com.leynmaster.advent.aoc2024.common.Coordinate;
+import com.leynmaster.advent.aoc2024.common.Direction;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -41,10 +42,10 @@ public class DoubleGrid {
         return score;
     }
 
-    void run(List<Step> steps) {
+    void run(List<Direction> steps) {
         int x = startX;
         int y = startY;
-        for (Step step : steps) {
+        for (Direction step : steps) {
             if (move(x, y, step)) {
                 x += step.getDeltaX();
                 y += step.getDeltaY();
@@ -52,13 +53,14 @@ public class DoubleGrid {
         }
     }
 
-    private boolean move(int x, int y, Step step) {
-        return switch (step) {
-            case UP -> moveUp(x, y);
-            case DOWN -> moveDown(x, y);
-            case LEFT -> moveLeft(x, y);
-            case RIGHT -> moveRight(x, y);
-        };
+    private boolean move(int x, int y, Direction step) {
+        if (step == Direction.LEFT) {
+            return moveLeft(x, y);
+        }
+        if (step == Direction.RIGHT) {
+            return moveRight(x, y);
+        }
+        return moveVertical(x, y, step);
     }
 
     private boolean moveLeft(int x, int y) {
@@ -97,10 +99,9 @@ public class DoubleGrid {
         return true;
     }
 
-    private boolean moveUp(int x, int y) {
-        LinkedList<Box> moveQueue = new LinkedList<>();
+    private boolean moveVertical(int x, int y, Direction direction) {
         LinkedList<Box> searchQueue = new LinkedList<>();
-        int nextY = y - 1;
+        int nextY = y + direction.getDeltaY();
         if (grid[nextY][x] == '#') {
             return false;
         }
@@ -110,73 +111,51 @@ public class DoubleGrid {
         if (grid[nextY][x] == ']') {
             searchQueue.add(new Box(new Coordinate(x - 1, nextY), new Coordinate(x, nextY)));
         }
-        while (!searchQueue.isEmpty()) {
-            Box box = searchQueue.removeFirst();
-            moveQueue.addFirst(box);
-            if (grid[box.c1().y() - 1][box.c1().x()] == '#' || grid[box.c2().y() - 1][box.c2().x()] == '#') {
-                return false;
-            }
-            Coordinate topCorner = new Coordinate(box.c1().x(), box.c1().y() - 1);
-            if (grid[box.c1().y() - 1][box.c1().x()] == '[') {
-                searchQueue.add(new Box(topCorner, new Coordinate(box.c1().x() + 1, box.c1().y() - 1)));
-            }
-            if (grid[box.c1().y() - 1][box.c1().x()] == ']') {
-                searchQueue.add(new Box(new Coordinate(box.c1().x() - 1, box.c1().y() - 1), topCorner));
-            }
-            if (grid[box.c2().y() - 1][box.c2().x()] == '[') {
-                searchQueue.add(new Box(
-                        new Coordinate(box.c2().x(), box.c2().y() - 1),
-                        new Coordinate(box.c2().x() + 1, box.c2().y() - 1)));
-            }
+        if (searchQueue.isEmpty()) {
+            return true;
         }
-        for (Box box : moveQueue) {
-            grid[box.c1().y() - 1][box.c1().x()] = '[';
-            grid[box.c2().y() - 1][box.c2().x()] = ']';
-            grid[box.c1().y()][box.c1().x()] = '.';
-            grid[box.c2().y()][box.c2().x()] = '.';
+        LinkedList<Box> moveQueue = searchVerticalBoxes(searchQueue, direction);
+        if (moveQueue.isEmpty()) {
+            return false;
         }
+        moveVerticalBoxes(moveQueue, direction);
         return true;
     }
 
-    private boolean moveDown(int x, int y) {
-        LinkedList<Box> moveQueue = new LinkedList<>();
-        LinkedList<Box> searchQueue = new LinkedList<>();
-        int nextY = y + 1;
-        if (grid[nextY][x] == '#') {
-            return false;
-        }
-        if (grid[nextY][x] == '[') {
-            searchQueue.add(new Box(new Coordinate(x, nextY), new Coordinate(x + 1, nextY)));
-        }
-        if (grid[nextY][x] == ']') {
-            searchQueue.add(new Box(new Coordinate(x - 1, nextY), new Coordinate(x, nextY)));
-        }
+    private LinkedList<Box> searchVerticalBoxes(LinkedList<Box> searchQueue, Direction direction) {
+        LinkedList<Box> boxes = new LinkedList<>();
+        int deltaY = direction.getDeltaY();
         while (!searchQueue.isEmpty()) {
             Box box = searchQueue.removeFirst();
-            moveQueue.addFirst(box);
-            if (grid[box.c1().y() + 1][box.c1().x()] == '#' || grid[box.c2().y() + 1][box.c2().x()] == '#') {
-                return false;
+            boxes.addFirst(box);
+            if (grid[box.c1().y() + deltaY][box.c1().x()] == '#' || grid[box.c2().y() + deltaY][box.c2().x()] == '#') {
+                boxes.clear();
+                return boxes;
             }
-            Coordinate bottomCorner = new Coordinate(box.c1().x(), box.c1().y() + 1);
-            if (grid[box.c1().y() + 1][box.c1().x()] == '[') {
-                searchQueue.add(new Box(bottomCorner, new Coordinate(box.c1().x() + 1, box.c1().y() + 1)));
+            Coordinate topCorner = new Coordinate(box.c1().x(), box.c1().y() + deltaY);
+            if (grid[box.c1().y() + deltaY][box.c1().x()] == '[') {
+                searchQueue.add(new Box(topCorner, new Coordinate(box.c1().x() + 1, box.c1().y() + deltaY)));
             }
-            if (grid[box.c1().y() + 1][box.c1().x()] == ']') {
-                searchQueue.add(new Box(new Coordinate(box.c1().x() - 1, box.c1().y() + 1), bottomCorner));
+            if (grid[box.c1().y() + deltaY][box.c1().x()] == ']') {
+                searchQueue.add(new Box(new Coordinate(box.c1().x() - 1, box.c1().y() + deltaY), topCorner));
             }
-            if (grid[box.c2().y() + 1][box.c2().x()] == '[') {
+            if (grid[box.c2().y() + deltaY][box.c2().x()] == '[') {
                 searchQueue.add(new Box(
-                        new Coordinate(box.c2().x(), box.c2().y() + 1),
-                        new Coordinate(box.c2().x() + 1, box.c2().y() + 1)));
+                        new Coordinate(box.c2().x(), box.c2().y() + deltaY),
+                        new Coordinate(box.c2().x() + 1, box.c2().y() + deltaY)));
             }
         }
-        for (Box box : moveQueue) {
-            grid[box.c1().y() + 1][box.c1().x()] = '[';
-            grid[box.c2().y() + 1][box.c2().x()] = ']';
+        return boxes;
+    }
+
+    private void moveVerticalBoxes(LinkedList<Box> boxes, Direction direction) {
+        int deltaY = direction.getDeltaY();
+        for (Box box : boxes) {
+            grid[box.c1().y() + deltaY][box.c1().x()] = '[';
+            grid[box.c2().y() + deltaY][box.c2().x()] = ']';
             grid[box.c1().y()][box.c1().x()] = '.';
             grid[box.c2().y()][box.c2().x()] = '.';
         }
-        return true;
     }
 
     private record Box(Coordinate c1, Coordinate c2) { }

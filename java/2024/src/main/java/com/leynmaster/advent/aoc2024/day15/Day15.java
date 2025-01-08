@@ -1,5 +1,6 @@
 package com.leynmaster.advent.aoc2024.day15;
 
+import com.leynmaster.advent.aoc2024.common.Direction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +19,7 @@ public class Day15 {
 //    private static final String INPUT_FILE = "../../inputs/2024/day15/test-2.txt";
     private static final String INPUT_FILE = "../../inputs/2024/day15/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final List<Step> steps = new ArrayList<>();
+    private final List<Direction> steps = new ArrayList<>();
     private char[][] grid;
     private int startX;
     private int startY;
@@ -42,7 +43,7 @@ public class Day15 {
             }
             grid = gridLines.toArray(new char[0][]);
             while ((line = reader.readLine()) != null) {
-                steps.addAll(Step.fromLine(line));
+                steps.addAll(fromLine(line));
             }
         }
         findStart();
@@ -61,5 +62,23 @@ public class Day15 {
             }
         }
         throw new IllegalStateException("No start found");
+    }
+
+    private static List<Direction> fromLine(String line) {
+        List<Direction> steps = new ArrayList<>();
+        for (char c : line.toCharArray()) {
+            steps.add(fromChar(c));
+        }
+        return steps;
+    }
+
+    private static Direction fromChar(char c) {
+        return switch (c) {
+            case '^' -> Direction.UP;
+            case 'v' -> Direction.DOWN;
+            case '<' -> Direction.LEFT;
+            case '>' -> Direction.RIGHT;
+            default -> throw new IllegalArgumentException("Invalid step character: " + c);
+        };
     }
 }
