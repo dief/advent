@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Advent 2024 Day 18
+ * Advent 2024 Day 18.
  *
  * @author David Charles Pollack
  */
