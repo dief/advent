@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Day18 {
-    private static final String INPUT_FILE = "inputs/day18/input.txt";
+    private static final String INPUT_FILE = "../../inputs/2023/day18/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<BuildStep> part1Steps = new ArrayList<>();
     private final List<BuildStep> part2Steps = new ArrayList<>();

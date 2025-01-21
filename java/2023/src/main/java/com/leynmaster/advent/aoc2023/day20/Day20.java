@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Day20 {
-    private static final String INPUT_FILE = "inputs/day20/input.txt";
+    private static final String INPUT_FILE = "../../inputs/2023/day20/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final ModuleConfiguration moduleConfig = new ModuleConfiguration();
 

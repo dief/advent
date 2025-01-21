@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Day24 {
-    private static final String INPUT_FILE = "inputs/day24/input.txt";
+    private static final String INPUT_FILE = "../../inputs/2023/day24/input.txt";
     private static final long MIN = 200000000000000L;
     private static final long MAX = 400000000000000L;
     private final Logger logger = LoggerFactory.getLogger(getClass());

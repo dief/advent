@@ -69,7 +69,7 @@ class Lens {
 
     @Override
     public String toString() {
-        return STR."[\{label} \{length}]";
+        return String.format("[%s %s]", label, length);
     }
 
     @Override

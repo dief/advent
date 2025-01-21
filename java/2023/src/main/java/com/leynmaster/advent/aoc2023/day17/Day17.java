@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Day17 {
-    private static final String INPUT_FILE = "inputs/day17/input.txt";
+    private static final String INPUT_FILE = "../../inputs/2023/day17/input.txt";
     private static final int MIN1 = -1;
     private static final int MAX1 = 2;
     private static final int MIN2 = 2;
@@ -22,7 +22,7 @@ public class Day17 {
         logger.info("Part 2: {}", new CityMap(matrix, MIN2, MAX2).heat());
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main() throws IOException {
         List<int[]> rows = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
             String line;
@@ -30,7 +30,7 @@ public class Day17 {
                 if (!line.isBlank()) {
                     int[] cols = new int[line.length()];
                     for (int i = 0; i < line.length(); i++) {
-                        cols[i] = Integer.parseInt(STR."\{line.charAt(i)}");
+                        cols[i] = Integer.parseInt("" + line.charAt(i));
                     }
                     rows.add(cols);
                 }

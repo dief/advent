@@ -8,7 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Day15 {
-    private static final String INPUT_FILE = "inputs/day15/input.txt";
+    private static final String INPUT_FILE = "../../inputs/2023/day15/input.txt";
     private static final int BOX_NUM = 256;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final LensBox[] boxes = new LensBox[BOX_NUM];

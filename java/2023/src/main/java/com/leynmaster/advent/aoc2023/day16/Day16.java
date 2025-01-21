@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Day16 {
-    private static final String INPUT_FILE = "inputs/day16/input.txt";
+    private static final String INPUT_FILE = "../../inputs/2023/day16/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public void run(char[][] matrix) {

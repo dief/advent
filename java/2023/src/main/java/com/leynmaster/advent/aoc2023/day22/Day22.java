@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Day22 {
-    private static final String INPUT_FILE = "inputs/day22/input.txt";
+    private static final String INPUT_FILE = "../../inputs/2023/day22/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<int[][]> levels = new ArrayList<>();
     private List<Brick> bricks;
