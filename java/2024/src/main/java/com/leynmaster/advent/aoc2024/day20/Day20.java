@@ -94,7 +94,8 @@ public class Day20 {
         int startScore = steps[start.y()][start.x()];
         for (Coordinate cheat : cheats) {
             Coordinate check = start.move(cheat);
-            if (isSpace(check) && steps[check.y()][check.x()] - startScore - Math.abs(cheat.x()) - Math.abs(cheat.y()) >= THRESHOLD) {
+            if (isSpace(check) && steps[check.y()][check.x()] - startScore
+                    - Math.abs(cheat.x()) - Math.abs(cheat.y()) >= THRESHOLD) {
                 helpfulCheats++;
             }
         }
