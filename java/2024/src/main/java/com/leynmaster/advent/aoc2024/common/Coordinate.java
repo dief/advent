@@ -9,4 +9,9 @@ public record Coordinate(int x, int y) {
     public Coordinate move(Coordinate delta) {
         return new Coordinate(x + delta.x(), y + delta.y());
     }
+
+    @Override
+    public String toString() {
+        return "[" + x + ", " + y + "]";
+    }
 }
