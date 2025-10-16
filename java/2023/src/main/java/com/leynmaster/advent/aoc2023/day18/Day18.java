@@ -1,6 +1,6 @@
 package com.leynmaster.advent.aoc2023.day18;
 
-import com.leynmaster.advent.aoc2023.common.matrix.Direction;
+import com.leynmaster.advent.utils.map.Direction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,6 +1,6 @@
 package com.leynmaster.advent.aoc2024.day12;
 
-import com.leynmaster.advent.aoc2024.common.Coordinate;
+import com.leynmaster.advent.utils.map.Coordinate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,7 +1,7 @@
 package com.leynmaster.advent.aoc2023.day17;
 
-import com.leynmaster.advent.aoc2023.common.matrix.Coordinate;
-import com.leynmaster.advent.aoc2023.common.matrix.Direction;
+import com.leynmaster.advent.utils.map.Coordinate;
+import com.leynmaster.advent.utils.map.Direction;
 
 import java.util.*;
 

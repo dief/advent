@@ -1,6 +1,6 @@
 package com.leynmaster.advent.aoc2024.day6;
 
-import com.leynmaster.advent.aoc2024.common.Direction;
+import com.leynmaster.advent.utils.map.Direction;
 
 import java.util.HashSet;
 import java.util.Set;

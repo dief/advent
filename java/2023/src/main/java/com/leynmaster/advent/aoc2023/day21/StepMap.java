@@ -1,7 +1,7 @@
 package com.leynmaster.advent.aoc2023.day21;
 
-import com.leynmaster.advent.aoc2023.common.matrix.Coordinate;
-import com.leynmaster.advent.aoc2023.common.matrix.Direction;
+import com.leynmaster.advent.utils.map.Coordinate;
+import com.leynmaster.advent.utils.map.Direction;
 
 import java.util.*;
 
@@ -63,13 +63,13 @@ public class StepMap {
 
     private void nextSteps(Set<PlotCursor> nextSteps, PlotCursor cursor, Direction direction) {
         Coordinate matrix = cursor.matrix();
-        Coordinate next = direction.shift(cursor.plot());
+        Coordinate next = cursor.plot().move(direction);
         int x = next.x();
         int y = next.y();
         boolean add = true;
         if (x < 0 || x >= height || y < 0 || y >= width) {
             if (expanding) {
-                matrix = direction.shift(matrix);
+                matrix = matrix.move(direction);
                 next = fixOverflow(next);
             } else {
                 add = false;

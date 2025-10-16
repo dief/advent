@@ -1,7 +1,7 @@
 package com.leynmaster.advent.aoc2023.day23;
 
-import com.leynmaster.advent.aoc2023.common.matrix.Coordinate;
-import com.leynmaster.advent.aoc2023.common.matrix.Direction;
+import com.leynmaster.advent.utils.map.Coordinate;
+import com.leynmaster.advent.utils.map.Direction;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -38,10 +38,10 @@ public class JunctionGraphBuilder {
             if (!seen.contains(coordinate)) {
                 seen.add(coordinate);
                 List<Coordinate> split = new ArrayList<>();
-                split.add(Direction.UP.shift(coordinate));
-                split.add(Direction.DOWN.shift(coordinate));
-                split.add(Direction.LEFT.shift(coordinate));
-                split.add(Direction.RIGHT.shift(coordinate));
+                split.add(coordinate.move(Direction.UP));
+                split.add(coordinate.move(Direction.DOWN));
+                split.add(coordinate.move(Direction.LEFT));
+                split.add(coordinate.move(Direction.RIGHT));
                 split.stream().filter(this::inbounds).forEach(next ->
                     computeVertex(coordinate, next).ifPresent(vertex -> {
                         node.addVertex(vertex);
@@ -78,10 +78,10 @@ public class JunctionGraphBuilder {
 
     private List<Coordinate> unseenNeighbors(Coordinate coordinate, Set<Coordinate> seen) {
         List<Coordinate> next = new ArrayList<>();
-        next.add(Direction.UP.shift(coordinate));
-        next.add(Direction.DOWN.shift(coordinate));
-        next.add(Direction.LEFT.shift(coordinate));
-        next.add(Direction.RIGHT.shift(coordinate));
+        next.add(coordinate.move(Direction.UP));
+        next.add(coordinate.move(Direction.DOWN));
+        next.add(coordinate.move(Direction.LEFT));
+        next.add(coordinate.move(Direction.RIGHT));
         return next.stream().filter(this::inbounds).filter(Predicate.not(seen::contains)).toList();
     }
 

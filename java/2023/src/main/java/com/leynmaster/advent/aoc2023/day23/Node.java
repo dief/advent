@@ -1,6 +1,6 @@
 package com.leynmaster.advent.aoc2023.day23;
 
-import com.leynmaster.advent.aoc2023.common.matrix.Coordinate;
+import com.leynmaster.advent.utils.map.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;

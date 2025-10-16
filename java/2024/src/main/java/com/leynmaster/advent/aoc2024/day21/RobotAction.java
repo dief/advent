@@ -1,6 +1,6 @@
 package com.leynmaster.advent.aoc2024.day21;
 
-import com.leynmaster.advent.aoc2024.common.Direction;
+import com.leynmaster.advent.utils.map.Direction;
 
 public class RobotAction {
     private boolean push;

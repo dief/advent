@@ -1,4 +1,4 @@
-package com.leynmaster.advent.aoc2024.common;
+package com.leynmaster.advent.utils.map;
 
 public record Coordinate(int x, int y) {
 

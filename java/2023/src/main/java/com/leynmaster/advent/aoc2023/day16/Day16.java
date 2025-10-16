@@ -15,6 +15,7 @@ public class Day16 {
 
     public void run(char[][] matrix) {
         LightGrid grid = new LightGrid(matrix);
+        logger.info("Starting");
         logger.info("Part 1: {}", grid.part1());
         logger.info("Part 2: {}", grid.part2());
     }

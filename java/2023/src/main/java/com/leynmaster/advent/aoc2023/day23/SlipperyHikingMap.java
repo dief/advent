@@ -1,7 +1,7 @@
 package com.leynmaster.advent.aoc2023.day23;
 
-import com.leynmaster.advent.aoc2023.common.matrix.Coordinate;
-import com.leynmaster.advent.aoc2023.common.matrix.Direction;
+import com.leynmaster.advent.utils.map.Coordinate;
+import com.leynmaster.advent.utils.map.Direction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +30,7 @@ public class SlipperyHikingMap implements HikingMap {
         int maxEnd = 0;
         Set<Coordinate> initialSeen = new HashSet<>();
         initialSeen.add(start);
-        queue.addFirst(new PathCursor(Direction.DOWN.shift(start), initialSeen, 1));
+        queue.addFirst(new PathCursor(start.move(Direction.DOWN), initialSeen, 1));
         while (!queue.isEmpty()) {
             PathCursor cursor = queue.removeFirst();
             Coordinate coordinate = cursor.coordinate();
@@ -56,16 +56,16 @@ public class SlipperyHikingMap implements HikingMap {
     private List<Coordinate> unseenNeighbors(Coordinate coordinate, Set<Coordinate> seen, char position) {
         List<Coordinate> next = new ArrayList<>();
         if (position == '.' || position == '^') {
-            next.add(Direction.UP.shift(coordinate));
+            next.add(coordinate.move(Direction.UP));
         }
         if (position == '.' || position == 'v') {
-            next.add(Direction.DOWN.shift(coordinate));
+            next.add(coordinate.move(Direction.DOWN));
         }
         if (position == '.' || position == '<') {
-            next.add(Direction.LEFT.shift(coordinate));
+            next.add(coordinate.move(Direction.LEFT));
         }
         if (position == '.' || position == '>') {
-            next.add(Direction.RIGHT.shift(coordinate));
+            next.add(coordinate.move(Direction.RIGHT));
         }
         return next.stream().filter(this::inbounds).filter(Predicate.not(seen::contains)).toList();
     }
