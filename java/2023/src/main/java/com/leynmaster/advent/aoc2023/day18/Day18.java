@@ -20,7 +20,7 @@ public class Day18 {
     private final Map<String, Direction> directionMap = new HashMap<>();
     private final Map<Integer, Direction> hexDirectionMap = new HashMap<>();
 
-    public Day18() {
+    void main() throws IOException {
         directionMap.put("U", Direction.UP);
         directionMap.put("D", Direction.DOWN);
         directionMap.put("L", Direction.LEFT);
@@ -30,9 +30,16 @@ public class Day18 {
         hexDirectionMap.put(1, Direction.DOWN);
         hexDirectionMap.put(2, Direction.LEFT);
         hexDirectionMap.put(3, Direction.UP);
-    }
 
-    public void run() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!(line.isBlank() || line.trim().startsWith("#"))) {
+                    parseLine(line);
+                }
+            }
+        }
+
         Lagoon lagoon = new Lagoon();
         lagoon.build(part1Steps);
         logger.info("Part 1: {}", lagoon.area());
@@ -42,24 +49,11 @@ public class Day18 {
         logger.info("Part 2: {}", lagoon.area());
     }
 
-    public void parseLine(String line) {
+    void parseLine(String line) {
         String[] split = line.split(" ");
         String hexStep = split[2];
         part1Steps.add(new BuildStep(directionMap.get(split[0]), Integer.parseInt(split[1])));
         part2Steps.add(new BuildStep(hexDirectionMap.get(Integer.parseInt(hexStep.substring(7, 8))),
                 Integer.parseInt(hexStep.substring(2, 7), 16)));
-    }
-
-    public static void main(String[] args) throws IOException {
-        Day18 solution = new Day18();
-        try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (!(line.isBlank() || line.trim().startsWith("#"))) {
-                    solution.parseLine(line);
-                }
-            }
-        }
-        solution.run();
     }
 }
