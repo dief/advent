@@ -23,7 +23,7 @@ public class Day3 {
     private int height;
     private int width;
     private int[][] ratios;
-    private int[][] adjacent;
+    private int[][] counter;
 
     void main() throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
@@ -44,11 +44,11 @@ public class Day3 {
         height = schematic.size();
         width = schematic.getFirst().length();
         ratios = new int[height][width];
-        adjacent = new int[height][width];
+        counter = new int[height][width];
         for (int[] row : ratios) {
-            Arrays.fill(row, 0);
+            Arrays.fill(row, 1);
         }
-        for (int[] row : adjacent) {
+        for (int[] row : counter) {
             Arrays.fill(row, 0);
         }
     }
@@ -68,7 +68,7 @@ public class Day3 {
         int sum = 0;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (adjacent[i][j] == 2) {
+                if (counter[i][j] == 2) {
                     sum += ratios[i][j];
                 }
             }
@@ -114,12 +114,8 @@ public class Day3 {
     }
 
     private void addToRatio(int num, int row, int col) {
-        if (ratios[row][col] == 0) {
-            ratios[row][col] = num;
-        } else {
-            ratios[row][col] *= num;
-        }
-        adjacent[row][col]++;
+        ratios[row][col] *= num;
+        counter[row][col]++;
     }
 
     private boolean isPart(int rowNum, int start, int end) {
