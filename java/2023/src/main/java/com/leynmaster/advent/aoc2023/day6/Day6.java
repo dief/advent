@@ -1,5 +1,6 @@
 package com.leynmaster.advent.aoc2023.day6;
 
+import com.leynmaster.advent.utils.input.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,11 +19,17 @@ public class Day6 {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private long[] times;
     private long[] distances;
+    private long longTime;
+    private long longDistance;
 
     void main() throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
-            times = parseNumbers(reader.readLine().split("\\s*:\\s*")[1]);
-            distances = parseNumbers(reader.readLine().split("\\s*:\\s*")[1]);
+            String timesStr = reader.readLine().split("\\s*:\\s*")[1];
+            String distanceStr = reader.readLine().split("\\s*:\\s*")[1];
+            times = NumberUtils.parseLongs(timesStr);
+            distances = NumberUtils.parseLongs(distanceStr);
+            longTime = Long.parseLong(timesStr.replaceAll("\\s+", ""));
+            longDistance = Long.parseLong(distanceStr.replaceAll("\\s+", ""));
         }
         logger.info("Starting");
         logger.info("Part 1: {}", partOne());
@@ -38,7 +45,7 @@ public class Day6 {
     }
 
     private int partTwo() {
-        return waysToWin(join(times), join(distances));
+        return waysToWin(longTime, longDistance);
     }
 
     private static int waysToWin(long time, long distance) {
@@ -49,22 +56,5 @@ public class Day6 {
             }
         }
         return waysToWin;
-    }
-
-    private static long join(long[] numbers) {
-        StringBuilder buf = new StringBuilder();
-        for (long number : numbers) {
-            buf.append(number);
-        }
-        return Long.parseLong(buf.toString());
-    }
-
-    private static long[] parseNumbers(String line) {
-        String[] numStrings = line.trim().split("\\s+");
-        long[] numbers = new long[numStrings.length];
-        for (int i = 0; i < numStrings.length; i++) {
-            numbers[i] = Long.parseLong(numStrings[i]);
-        }
-        return numbers;
     }
 }

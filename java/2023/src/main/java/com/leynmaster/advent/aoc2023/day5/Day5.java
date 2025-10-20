@@ -1,5 +1,6 @@
 package com.leynmaster.advent.aoc2023.day5;
 
+import com.leynmaster.advent.utils.input.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,7 @@ public class Day5 {
 
     void main() throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
-            seeds = parseNumbers(reader.readLine().split("\\s*:\\s*")[1]);
+            seeds = NumberUtils.parseLongs(reader.readLine().split("\\s*:\\s*")[1]);
             reader.readLine();
             while (reader.readLine() != null) {
                 maps.add(parseMap(reader));
@@ -74,18 +75,9 @@ public class Day5 {
         SeedMap map = new SeedMap();
         String line = reader.readLine();
         while (line != null && !line.isBlank()) {
-            map.addRange(parseNumbers(line));
+            map.addRange(NumberUtils.parseLongs(line));
             line = reader.readLine();
         }
         return map;
-    }
-
-    private static long[] parseNumbers(String line) {
-        String[] numStrings = line.trim().split("\\s+");
-        long[] numbers = new long[numStrings.length];
-        for (int i = 0; i < numStrings.length; i++) {
-            numbers[i] = Long.parseLong(numStrings[i]);
-        }
-        return numbers;
     }
 }
