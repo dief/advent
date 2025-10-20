@@ -1,11 +1,12 @@
 package com.leynmaster.advent.aoc2023.day1;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,16 +35,13 @@ public class Day1 {
         numberMap.put("seven", 7);
         numberMap.put("eight", 8);
         numberMap.put("nine", 9);
-        try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (!line.isBlank()) {
-                    part1 += calibration(line, false);
-                    part2 += calibration(line, true);
-                }
+        logger.info("Starting");
+        for (String line : FileUtils.readLines(new File(INPUT_FILE), StandardCharsets.UTF_8)) {
+            if (!line.isBlank()) {
+                part1 += calibration(line, false);
+                part2 += calibration(line, true);
             }
         }
-        logger.info("Starting");
         logger.info("Part 1: {}", part1);
         logger.info("Part 2: {}", part2);
     }

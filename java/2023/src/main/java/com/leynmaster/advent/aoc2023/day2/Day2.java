@@ -1,11 +1,12 @@
 package com.leynmaster.advent.aoc2023.day2;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,12 +23,9 @@ public class Day2 {
     private final List<List<int[]>> games = new ArrayList<>();
 
     void main() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (!line.isBlank()) {
-                    games.add(parseLine(line));
-                }
+        for (String line : FileUtils.readLines(new File(INPUT_FILE), StandardCharsets.UTF_8)) {
+            if (!line.isBlank()) {
+                games.add(parseLine(line));
             }
         }
         logger.info("Starting");
