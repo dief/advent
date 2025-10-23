@@ -9,8 +9,7 @@ public class SeedMap {
     long map(long seed) {
         for (SeedRange range : ranges) {
             long min = range.source;
-            long max = min + range.length;
-            if (seed >= min && seed < max) {
+            if (seed >= min && seed < min + range.length) {
                 return range.target + seed - min;
             }
         }
@@ -20,8 +19,7 @@ public class SeedMap {
     long reverseMap(long location) {
         for (SeedRange range : ranges) {
             long min = range.target;
-            long max = min + range.length;
-            if (location >= min && location < max) {
+            if (location >= min && location < min + range.length) {
                 return range.source + location - min;
             }
         }
