@@ -46,4 +46,16 @@ public class CoordinateTest {
     void string() {
         assertThat(start.toString()).isEqualTo("[2, 3]");
     }
+
+    @Test
+    void equals() {
+        Coordinate same = new Coordinate(2, 3);
+        assertThat(start).isEqualTo(same);
+        assertThat(start.hashCode()).isEqualTo(same.hashCode());
+        assertThat(start).isNotEqualTo(new Coordinate(5, -2));
+        assertThat(start).isNotEqualTo(new Coordinate(2, -2));
+        assertThat(start).isNotEqualTo(new Coordinate(5, 3));
+        assertThat(start).isNotEqualTo(null);
+        assertThat(start).isNotEqualTo(new Object());
+    }
 }
