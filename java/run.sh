@@ -9,4 +9,4 @@ $HOME/.m2/repository/ch/qos/logback/logback-core/1.5.12/logback-core-1.5.12.jar:
 $HOME/.m2/repository/org/slf4j/slf4j-api/2.0.15/slf4j-api-2.0.15.jar:\
 $HOME/.m2/repository/commons-io/commons-io/2.20.0/commons-io-2.20.0.jar
 
-exec java -Xlog:gc com.leynmaster.advent.aoc$1.day$2.Day$2
+exec java -Xlog:gc,gc+exit com.leynmaster.advent.aoc$1.day$2.Day$2
