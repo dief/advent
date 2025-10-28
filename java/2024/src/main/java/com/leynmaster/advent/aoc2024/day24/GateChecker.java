@@ -3,9 +3,9 @@ package com.leynmaster.advent.aoc2024.day24;
 import java.util.List;
 import java.util.Optional;
 
-public record GateChecker(List<Gate> gates) {
+public record GateChecker(int limit, List<Gate> gates) {
 
-    public int check(int limit) {
+    public int check() {
         Optional<Gate> z0 = findGate(wire("x", 0), wire("y", 0), "XOR");
         if (z0.isEmpty() || !"z00".equals(z0.get().getDestination())) {
             return 0;
@@ -24,10 +24,10 @@ public record GateChecker(List<Gate> gates) {
         if (z1.isEmpty() || !"z01".equals(z1.get().getDestination())) {
             return 1;
         }
-        return check(limit, prev1, prev2);
+        return check(prev1, prev2);
     }
 
-    private int check(int limit, String startPrev1, String startPrev2) {
+    private int check(String startPrev1, String startPrev2) {
         String prev1 = startPrev1;
         String prev2 = startPrev2;
         for (int i = 2; i < limit; i++) {

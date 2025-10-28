@@ -29,7 +29,7 @@ public class Day24 {
     private final Pattern gatePattern = Pattern.compile("^(\\w+)\\s*(\\w+)\\s*(\\w+)\\s*->\\s*(\\w+)$");
     private final Map<String, Boolean> wiresStart = new TreeMap<>();
     private final List<Gate> gates = new ArrayList<>();
-    private final GateChecker checker = new GateChecker(gates);
+    private final GateChecker checker = new GateChecker(Z_CAP, gates);
     private final TreeSet<String> gatesSwapped = new TreeSet<>();
 
     void main() throws IOException {
@@ -84,43 +84,44 @@ public class Day24 {
     }
 
     private TreeSet<String> partTwo() {
-        int highest = checker.check(Z_CAP);
+        int highest = checker.check();
         while (highest < Z_CAP) {
-//            logger.info("Reached: {}", highest);
-            swapUntilReaches(highest);
-            highest = checker.check(Z_CAP);
-
+            highest = swapUntilReaches(highest);
         }
         return gatesSwapped;
     }
 
-    private void swapUntilReaches(int limit) {
-        boolean swapping = true;
-        for (int i = 0; i < gates.size() - 1 && swapping; i++) {
-            for (int j = i + 1; j < gates.size() && swapping; j++) {
-                swapping = trySwap(limit, i, j);
+    private int swapUntilReaches(int limit) {
+        for (int i = 0; i < gates.size() - 1; i++) {
+            for (int j = i + 1; j < gates.size(); j++) {
+                int nextHighest = trySwap(limit, i, j);
+                if (nextHighest > limit) {
+                    return nextHighest;
+                }
             }
         }
+        return limit;
     }
 
-    private boolean trySwap(int limit, int i, int j) {
+    private int trySwap(int limit, int i, int j) {
         Gate gate1 = gates.get(i);
         Gate gate2 = gates.get(j);
-        String dest1 = gate1.getDestination();
-        String dest2 = gate2.getDestination();
-        if (!gatesSwapped.contains(dest1) && !gatesSwapped.contains(dest2)) {
-            gate1.setDestination(dest2);
-            gate2.setDestination(dest1);
-            if (checker.check(Z_CAP) > limit) {
-                gatesSwapped.add(dest1);
-                gatesSwapped.add(dest2);
-                return false;
+        String destination1 = gate1.getDestination();
+        String destination2 = gate2.getDestination();
+        if (!gatesSwapped.contains(destination1) && !gatesSwapped.contains(destination2)) {
+            gate1.setDestination(destination2);
+            gate2.setDestination(destination1);
+            int nextHighest = checker.check();
+            if (nextHighest > limit) {
+                gatesSwapped.add(destination1);
+                gatesSwapped.add(destination2);
+                return nextHighest;
             } else {
-                gate1.setDestination(dest1);
-                gate2.setDestination(dest2);
+                gate1.setDestination(destination1);
+                gate2.setDestination(destination2);
             }
         }
-        return true;
+        return limit;
     }
 
     private static boolean valuesSet(Map<String, Boolean> values) {
