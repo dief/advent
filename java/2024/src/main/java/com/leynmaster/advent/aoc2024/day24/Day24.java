@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -29,8 +30,9 @@ public class Day24 {
     private final Pattern gatePattern = Pattern.compile("^(\\w+)\\s*(\\w+)\\s*(\\w+)\\s*->\\s*(\\w+)$");
     private final Map<String, Boolean> wiresStart = new TreeMap<>();
     private final List<Gate> gates = new ArrayList<>();
-    private final GateChecker checker = new GateChecker(Z_CAP, gates);
     private final TreeSet<String> gatesSwapped = new TreeSet<>();
+    private final Map<String, Gate> destinationMap = new HashMap<>();
+    private final GateChecker checker = new GateChecker(Z_CAP, gates, destinationMap);
 
     void main() throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(INPUT_FILE))) {
@@ -61,6 +63,7 @@ public class Day24 {
                 String destination = addWire(matcher.group(4));
                 Gate gate = Gate.create(input1, input2, destination, matcher.group(2));
                 gates.add(gate);
+                destinationMap.put(destination, gate);
             }
         }
     }
@@ -86,15 +89,18 @@ public class Day24 {
     private TreeSet<String> partTwo() {
         int highest = checker.check();
         while (highest < Z_CAP) {
+            logger.info("Reached {}", highest);
             highest = swapUntilReaches(highest);
         }
+        logger.info("Reached {}", highest);
         return gatesSwapped;
     }
 
     private int swapUntilReaches(int limit) {
-        for (int i = 0; i < gates.size() - 1; i++) {
-            for (int j = i + 1; j < gates.size(); j++) {
-                int nextHighest = trySwap(limit, i, j);
+        List<Gate> swapGates = new ArrayList<>(destinationMap.values());
+        for (int i = 0; i < swapGates.size() - 1; i++) {
+            for (int j = i + 1; j < swapGates.size(); j++) {
+                int nextHighest = trySwap(limit, swapGates.get(i), swapGates.get(j));
                 if (nextHighest > limit) {
                     return nextHighest;
                 }
@@ -103,23 +109,19 @@ public class Day24 {
         return limit;
     }
 
-    private int trySwap(int limit, int i, int j) {
-        Gate gate1 = gates.get(i);
-        Gate gate2 = gates.get(j);
+    private int trySwap(int limit, Gate gate1, Gate gate2) {
         String destination1 = gate1.getDestination();
         String destination2 = gate2.getDestination();
-        if (!gatesSwapped.contains(destination1) && !gatesSwapped.contains(destination2)) {
-            gate1.setDestination(destination2);
-            gate2.setDestination(destination1);
-            int nextHighest = checker.check();
-            if (nextHighest > limit) {
-                gatesSwapped.add(destination1);
-                gatesSwapped.add(destination2);
-                return nextHighest;
-            } else {
-                gate1.setDestination(destination1);
-                gate2.setDestination(destination2);
-            }
+        gate1.setDestination(destination2);
+        gate2.setDestination(destination1);
+        int nextHighest = checker.check();
+        if (nextHighest > limit) {
+            gatesSwapped.add(destination1);
+            gatesSwapped.add(destination2);
+            return nextHighest;
+        } else {
+            gate1.setDestination(destination1);
+            gate2.setDestination(destination2);
         }
         return limit;
     }

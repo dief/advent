@@ -1,15 +1,17 @@
 package com.leynmaster.advent.aoc2024.day24;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public record GateChecker(int limit, List<Gate> gates) {
+public record GateChecker(int limit, List<Gate> gates, Map<String, Gate> destinationMap) {
 
     public int check() {
         Optional<Gate> z0 = findGate(wire("x", 0), wire("y", 0), "XOR");
         if (z0.isEmpty() || !"z00".equals(z0.get().getDestination())) {
             return 0;
         }
+        destinationMap.remove("z00");
         Optional<Gate> c1 = findGate(wire("x", 0), wire("y", 0), "AND");
         Optional<Gate> c2 = findGate(wire("x", 1), wire("y", 1), "XOR");
         String prev1;
@@ -24,6 +26,9 @@ public record GateChecker(int limit, List<Gate> gates) {
         if (z1.isEmpty() || !"z01".equals(z1.get().getDestination())) {
             return 1;
         }
+        destinationMap.remove("x00");
+        destinationMap.remove("y00");
+        destinationMap.remove("z01");
         return check(prev1, prev2);
     }
 
@@ -35,6 +40,8 @@ public record GateChecker(int limit, List<Gate> gates) {
             if (nextPrev == null) {
                 return i;
             }
+            destinationMap.remove(prev1);
+            destinationMap.remove(prev2);
             prev1 = nextPrev[0];
             prev2 = nextPrev[1];
         }
@@ -42,23 +49,33 @@ public record GateChecker(int limit, List<Gate> gates) {
     }
 
     private String[] passes(int i, String prev1, String prev2) {
-        Optional<Gate> icPrev = findGate(prev1, prev2, "AND");
-        Optional<Gate> carryPrev = findGate(wire("x", i - 1), wire("y", i - 1), "AND");
-        if (icPrev.isEmpty() || carryPrev.isEmpty()) {
+        Optional<Gate> icPrevGate = findGate(prev1, prev2, "AND");
+        String prevX = wire("x", i - 1);
+        String prevY = wire("y", i - 1);
+        Optional<Gate> carryPrevGate = findGate(prevX, prevY, "AND");
+        if (icPrevGate.isEmpty() || carryPrevGate.isEmpty()) {
             return null;
         }
-        Optional<Gate> carry = findGate(icPrev.get().getDestination(), carryPrev.get().getDestination(), "OR");
+        String icPrev = icPrevGate.get().getDestination();
+        String carryPrev = carryPrevGate.get().getDestination();
+        Optional<Gate> carry = findGate(icPrev, carryPrev, "OR");
         Optional<Gate> sum = findGate(wire("x", i), wire("y", i), "XOR");
         if (carry.isEmpty() || sum.isEmpty()) {
             return null;
         }
-        prev1 = carry.get().getDestination();
-        prev2 = sum.get().getDestination();
-        Optional<Gate> result = findGate(prev1, prev2, "XOR");
-        if (result.isEmpty() || !wire("z", i).equals(result.get().getDestination())) {
+        String newPrev1 = carry.get().getDestination();
+        String newPrev2 = sum.get().getDestination();
+        Optional<Gate> result = findGate(newPrev1, newPrev2, "XOR");
+        String destination = wire("z", i);
+        if (result.isEmpty() || !destination.equals(result.get().getDestination())) {
             return null;
         }
-        return new String[] { prev1, prev2 };
+        destinationMap.remove(prevX);
+        destinationMap.remove(prevY);
+        destinationMap.remove(icPrev);
+        destinationMap.remove(carryPrev);
+        destinationMap.remove(destination);
+        return new String[] { newPrev1, newPrev2 };
     }
 
     private Optional<Gate> findGate(String input1, String input2, String type) {
