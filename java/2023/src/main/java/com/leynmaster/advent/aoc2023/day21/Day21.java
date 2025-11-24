@@ -21,24 +21,25 @@ public class Day21 {
     }
 
     public void run() {
+        logger.info("Starting");
         logger.info("Part 1: {}", takeSteps(PART_1));
+        map.reset();
         map.setExpanding(true);
         int width = map.getWidth();
         int offset = PART_2 % width;
         long y0 = takeSteps(offset);
-        long y1 = takeSteps(offset + width);
-        long y2 = takeSteps(offset + width * 2);
+        long y1 = takeSteps(width);
+        long y2 = takeSteps(width);
         logger.info("Part 2: {}", quadratic(PART_2 / width, y0, y1, y2));
     }
 
     private long quadratic(long n, long y0, long y1, long y2) {
         long a = (y2 - 2*y1 + y0) / 2;
-        long b = y1 - y2 - a;
+        long b = y1 - y0 - a;
         return a * (long)Math.pow(n, 2) + b * n + y0;
     }
 
     private int takeSteps(int iterations) {
-        map.reset();
         for (int i = 0; i < iterations; i++) {
             map.takeStep();
         }

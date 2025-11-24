@@ -22,16 +22,15 @@ public class CityMap {
     public int heat() {
         queue.offer(new CoordinateCall(0, 1, Direction.RIGHT, 0, map[0][1]));
         queue.offer(new CoordinateCall(1, 0, Direction.DOWN, 0, map[1][0]));
-        int lowestHeat = Integer.MAX_VALUE;
         CoordinateCall call;
         while ((call = queue.poll()) != null) {
             if (call.coordinate().x() == rows - 1 && call.coordinate().y() == cols - 1 &&
-                    call.steps() > minThreshold && call.totalHeat() < lowestHeat) {
-                lowestHeat = call.totalHeat();
+                    call.steps() > minThreshold) {
+                return call.totalHeat();
             }
             updateNeighbors(call);
         }
-        return lowestHeat;
+        return -1;
     }
 
     private void nextCall(CoordinateCall call, int x, int y, Direction direction, int steps) {
