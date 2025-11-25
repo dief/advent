@@ -15,7 +15,7 @@ import java.util.List;
  * @author David Charles Pollack
  */
 public class Day4 {
-//    private static final String INPUT_FILE = "../../inputs/2024/day4/test.txt";
+//    private static final String INPUT_FILE = "../../inputs/2024/day4/test-1.txt";
     private static final String INPUT_FILE = "../../inputs/2024/day4/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final char[] xmasSearch = {'X', 'M', 'A', 'S'};

@@ -17,7 +17,7 @@ import java.util.List;
  * @author David Charles Pollack
  */
 public class Day3 {
-//    private static final String INPUT_FILE = "../../inputs/2023/day3/test.txt";
+//    private static final String INPUT_FILE = "../../inputs/2023/day3/test-1.txt";
     private static final String INPUT_FILE = "../../inputs/2023/day3/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<String> schematic = new ArrayList<>();

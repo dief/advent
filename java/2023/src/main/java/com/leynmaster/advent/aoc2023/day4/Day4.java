@@ -19,7 +19,7 @@ import java.util.Set;
  * @author David Charles Pollack
  */
 public class Day4 {
-//    private static final String INPUT_FILE = "../../inputs/2023/day4/test.txt";
+//    private static final String INPUT_FILE = "../../inputs/2023/day4/test-1.txt";
     private static final String INPUT_FILE = "../../inputs/2023/day4/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<Integer> wins = new ArrayList<>();

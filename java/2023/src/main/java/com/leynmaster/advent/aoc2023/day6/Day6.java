@@ -14,7 +14,7 @@ import java.io.IOException;
  * @author David Charles Pollack
  */
 public class Day6 {
-//    private static final String INPUT_FILE = "../../inputs/2023/day6/test.txt";
+//    private static final String INPUT_FILE = "../../inputs/2023/day6/test-1.txt";
     private static final String INPUT_FILE = "../../inputs/2023/day6/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private long[] times;

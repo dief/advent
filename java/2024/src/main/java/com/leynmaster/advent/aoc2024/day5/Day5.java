@@ -14,7 +14,7 @@ import java.util.*;
  * @author David Charles Pollack
  */
 public class Day5 {
-//    private static final String INPUT_FILE = "../../inputs/2024/day5/test.txt";
+//    private static final String INPUT_FILE = "../../inputs/2024/day5/test-1.txt";
     private static final String INPUT_FILE = "../../inputs/2024/day5/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Map<Integer, Set<Integer>> ruleMap;

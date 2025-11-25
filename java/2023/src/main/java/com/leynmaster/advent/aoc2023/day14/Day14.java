@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class Day14 {
     private static final int LIMIT = 1_000_000_000;
-//    private static final String INPUT_FILE = "../../inputs/2023/day14/test.txt";
+//    private static final String INPUT_FILE = "../../inputs/2023/day14/test-1.txt";
     private static final String INPUT_FILE = "../../inputs/2023/day14/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Map<String, Score> seenMap = new HashMap<>();

@@ -16,7 +16,7 @@ import java.util.List;
  * @author David Charles Pollack
  */
 public class Day5 {
-//    private static final String INPUT_FILE = "../../inputs/2023/day5/test.txt";
+//    private static final String INPUT_FILE = "../../inputs/2023/day5/test-1.txt";
     private static final String INPUT_FILE = "../../inputs/2023/day5/input.txt";
     private static final Long MAX_SEARCH = 10_000_000L;
     private final Logger logger = LoggerFactory.getLogger(getClass());

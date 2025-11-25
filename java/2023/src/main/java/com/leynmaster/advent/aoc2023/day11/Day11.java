@@ -17,7 +17,7 @@ import java.util.List;
  * @author David Charles Pollack
  */
 public class Day11 {
-//    private static final String INPUT_FILE = "../../inputs/2023/day11/test.txt";
+//    private static final String INPUT_FILE = "../../inputs/2023/day11/test-1.txt";
     private static final String INPUT_FILE = "../../inputs/2023/day11/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<Coordinate> galaxyStart = new ArrayList<>();
