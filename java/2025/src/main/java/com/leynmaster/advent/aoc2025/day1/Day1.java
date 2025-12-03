@@ -53,8 +53,7 @@ public class Day1 {
     }
 
     private int reduce(int amount) {
-        int hundreds = amount / 100;
-        zeroClickCount += hundreds;
-        return amount - 100 * hundreds;
+        zeroClickCount += amount / 100;
+        return amount % 100;
     }
 }
