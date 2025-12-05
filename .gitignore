@@ -6,6 +6,7 @@ input.txt
 
 # VSCode
 *.code-workspace
+.vscode
 
 # Vim
 *.swp
