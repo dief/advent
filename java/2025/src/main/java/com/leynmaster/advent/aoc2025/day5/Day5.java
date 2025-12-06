@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 public class Day5 {
@@ -32,8 +33,7 @@ public class Day5 {
 
     private LinkedList<Range> mergeRanges() {
         LinkedList<Range> mergedRanges = new LinkedList<>();
-        ranges.sort((r1, r2) -> r1.start() == r2.start() ? Long.compare(r1.end(), r2.end()) :
-                Long.compare(r1.start(), r2.start()));
+        ranges.sort(Comparator.comparingLong(Range::start));
         while (!ranges.isEmpty()) {
             Range range = ranges.poll();
             LinkedList<Range> remainingRanges = new LinkedList<>();
@@ -44,8 +44,8 @@ public class Day5 {
                     remainingRanges.add(next);
                 }
             }
-            ranges = remainingRanges;
             mergedRanges.add(range);
+            ranges = remainingRanges;
         }
         return mergedRanges;
     }
