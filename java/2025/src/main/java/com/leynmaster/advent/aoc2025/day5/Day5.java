@@ -14,7 +14,7 @@ public class Day5 {
 //    private static final String INPUT = "../../inputs/2025/day5/test-1.txt";
     private static final String INPUT = "../../inputs/2025/day5/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private LinkedList<Range> ranges = new LinkedList<>();
+    private final LinkedList<Range> ranges = new LinkedList<>();
 
     void main() throws IOException {
         String[] sections = FileUtils.readFileToString(new File(INPUT), StandardCharsets.UTF_8).trim().split("\\R\\R");
@@ -36,16 +36,13 @@ public class Day5 {
         ranges.sort(Comparator.comparingLong(Range::start));
         while (!ranges.isEmpty()) {
             Range range = ranges.poll();
-            LinkedList<Range> remainingRanges = new LinkedList<>();
-            for (Range next : ranges) {
-                if (range.end() >= next.start()) {
-                    range = new Range(range.start(), Math.max(range.end(), next.end()));
-                } else {
-                    remainingRanges.add(next);
-                }
+            Range next = ranges.peek();
+            while (next != null && next.start() <= range.end()) {
+                range = new Range(range.start(), Math.max(range.end(), next.end()));
+                ranges.poll();
+                next = ranges.peek();
             }
             mergedRanges.add(range);
-            ranges = remainingRanges;
         }
         return mergedRanges;
     }
