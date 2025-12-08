@@ -96,15 +96,13 @@ public class Day13 {
 
     private static int addValue(List<Node> list, String line, int start) {
         char c = line.charAt(start);
-        if (c == ',') {
-            return start;
-        }
         int index = start;
-        while (++index < line.length() && c != ',' && c != ']') {
-            c = line.charAt(index);
+        while (index < line.length() - 1 && c != ',' && c != ']') {
+            c = line.charAt(++index);
         }
-        index--;
-        list.add(new Node(Integer.parseInt(line.substring(start, index))));
+        if (index > start) {
+            list.add(new Node(Integer.parseInt(line.substring(start, index))));
+        }
         return c == ']' ? index - 1 : index;
     }
 
