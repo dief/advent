@@ -16,7 +16,7 @@ public class Day7 {
 //    private static final String INPUT = "../../inputs/2025/day7/test-1.txt";
     private static final String INPUT = "../../inputs/2025/day7/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final Map<Coordinate, Long> paths = new HashMap<>();
+    private final Map<Coordinate, Long> pathMap = new HashMap<>();
     private int splitters = 0;
     private char[][] grid;
     private int height;
@@ -32,11 +32,11 @@ public class Day7 {
     }
 
     private long numPaths(Coordinate coordinate) {
-        if (paths.containsKey(coordinate)) {
-            return paths.get(coordinate);
+        if (pathMap.containsKey(coordinate)) {
+            return pathMap.get(coordinate);
         }
         long childPaths = coordinate.y() < height - 1 ? nextCalls(coordinate) : 1;
-        paths.put(coordinate, childPaths);
+        pathMap.put(coordinate, childPaths);
         return childPaths;
     }
 
