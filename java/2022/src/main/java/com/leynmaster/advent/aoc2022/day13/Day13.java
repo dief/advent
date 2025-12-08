@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Day13 {
@@ -76,45 +77,35 @@ public class Day13 {
     }
 
     private static List<Node> parseList(String line) {
-        return parseList(line, 1, line.length() - 1);
-    }
-
-    private static List<Node> parseList(String line, int start, int end) {
-        List<Node> nodes = new ArrayList<>();
-        for (int i = start; i < end; i++) {
+        List<Node> list = new ArrayList<>();
+        LinkedList<List<Node>> listStack = new LinkedList<>();
+        for (int i = 1; i < line.length() - 1; i++) {
             if (line.charAt(i) == '[') {
-                int listEnd = endList(line, i);
-                nodes.add(new Node(parseList(line, i + 1, listEnd)));
-                i = listEnd + 1;
+                listStack.push(list);
+                list = new ArrayList<>();
+            } else if (line.charAt(i) == ']') {
+                Node node = new Node(list);
+                list = listStack.pop();
+                list.add(node);
             } else {
-                int valueEnd = endValue(line, i);
-                nodes.add(new Node(Integer.parseInt(line.substring(i, valueEnd))));
-                i = valueEnd;
+                i = addValue(list, line, i);
             }
         }
-        return nodes;
+        return list;
     }
 
-    private static int endList(String line, int start) {
-        int count = 1;
-        int index = start + 1;
-        for (; index < line.length() && count > 0; index++) {
-            if (line.charAt(index) == '[') {
-                count++;
-            } else if (line.charAt(index) == ']') {
-                count--;
-            }
+    private static int addValue(List<Node> list, String line, int start) {
+        char c = line.charAt(start);
+        if (c == ',') {
+            return start;
         }
-        return index - 1;
-    }
-
-    private static int endValue(String line, int start) {
-        int index = start + 1;
-        char c = line.charAt(index++);
-        for (; index < line.length() && c != ',' && c != ']'; index++) {
+        int index = start;
+        while (++index < line.length() && c != ',' && c != ']') {
             c = line.charAt(index);
         }
-        return index - 1;
+        index--;
+        list.add(new Node(Integer.parseInt(line.substring(start, index))));
+        return c == ']' ? index - 1 : index;
     }
 
     private static class Node {
