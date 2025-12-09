@@ -11,16 +11,14 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Day9 {
 //    private static final String INPUT = "../../inputs/2025/day9/test-1.txt";
     private static final String INPUT = "../../inputs/2025/day9/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<TileArea> areas = new ArrayList<>();
-    private final Set<Coordinate> redGreenTiles = new LinkedHashSet<>();
+    private final List<Coordinate> redGreenTiles = new ArrayList<>();
 
     void main() throws IOException {
         List<Coordinate> coordinateList =
