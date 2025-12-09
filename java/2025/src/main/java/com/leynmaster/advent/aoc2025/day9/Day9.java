@@ -2,7 +2,6 @@ package com.leynmaster.advent.aoc2025.day9;
 
 import com.leynmaster.advent.utils.input.NumberUtils;
 import com.leynmaster.advent.utils.map.Coordinate;
-import com.leynmaster.advent.utils.map.Direction;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,6 @@ public class Day9 {
     private static final String INPUT = "../../inputs/2025/day9/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final List<TileArea> areas = new ArrayList<>();
-    private final List<Edge> edges = new ArrayList<>();
     private final Set<Coordinate> redGreenTiles = new LinkedHashSet<>();
 
     void main() throws IOException {
@@ -29,12 +27,11 @@ public class Day9 {
                 FileUtils.readLines(new File(INPUT), StandardCharsets.UTF_8).stream().map(Day9::parse).toList();
         logger.info("Starting");
         for (int i = 0; i < coordinateList.size() - 1; i++) {
-            addGreenSpots(coordinateList.get(i), coordinateList.get(i + 1));
+            addTiles(coordinateList.get(i), coordinateList.get(i + 1));
             for (int j = i + 1; j < coordinateList.size(); j++) {
                 areas.add(new TileArea(coordinateList.get(i), coordinateList.get(j)));
             }
         }
-        edges.add(new Edge(coordinateList.getLast(), coordinateList.getFirst()));
         areas.sort(Comparator.comparingLong(TileArea::area).reversed());
         logger.info("Part 1: {}", areas.getFirst().area());
         logger.info("Part 2: {}", largestEnclosed());
@@ -55,61 +52,15 @@ public class Day9 {
         int xEnd = Math.max(shape.c1().x(), shape.c2().x());
         int yStart = Math.min(shape.c1().y(), shape.c2().y());
         int yEnd = Math.max(shape.c1().y(), shape.c2().y());
-        Coordinate c1 = new Coordinate(xStart, yStart).move(new Coordinate(1, 1));
-        Coordinate c2 = new Coordinate(xStart, yEnd).move(new Coordinate(1, -1));
-        Coordinate c3 = new Coordinate(xEnd, yStart).move(new Coordinate(-1, 1));
-        Coordinate c4 = new Coordinate(xEnd, yEnd).move(new Coordinate(-1, -1));
-        boolean enclosed = pointEnclosed(c1);
-        enclosed = enclosed && pointEnclosed(c2);
-        enclosed = enclosed && pointEnclosed(c3);
-        enclosed = enclosed && pointEnclosed(c4);
-        return enclosed && !edgeIntersects(xStart, xEnd, yStart, yEnd);
-    }
-
-    private boolean edgeIntersects(int xStart, int xEnd, int yStart, int yEnd) {
-        for (Edge edge : edges) {
-            boolean intersects;
-            if (edge.c1().x() == edge.c2().x()) {
-                int edgeX = edge.c1.x();
-                int minY = Math.min(edge.c1().y(), edge.c2().y());
-                int maxY = Math.max(edge.c1().y(), edge.c2().y());
-                intersects = edgeX > xStart && edgeX < xEnd &&
-                        (minY < yStart && maxY > yStart || minY < yEnd && maxY > yEnd);
-            } else {
-                int edgeY = edge.c1.y();
-                int minX = Math.min(edge.c1().x(), edge.c2().x());
-                int maxX = Math.max(edge.c1().x(), edge.c2().x());
-                intersects = edgeY > yStart && edgeY < yEnd &&
-                        (minX < xStart && maxX > xStart || minX < xEnd && maxX > xEnd);
-            }
-            if (intersects) {
-                return true;
+        for (Coordinate coordinate : redGreenTiles) {
+            if (coordinate.x() > xStart && coordinate.x() < xEnd && coordinate.y() > yStart && coordinate.y() < yEnd) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
-    private boolean pointEnclosed(Coordinate point) {
-        if (redGreenTiles.contains(point)) {
-            return true;
-        }
-        boolean prevTile = false;
-        int crossings = 0;
-        for (Coordinate c = point.move(Direction.LEFT); c.x() >= 0 && c.y() >= 0; c = c.move(Direction.LEFT)) {
-            if (redGreenTiles.contains(c)) {
-                prevTile = true;
-            } else {
-                if (prevTile) {
-                    crossings++;
-                }
-                prevTile = false;
-            }
-        }
-        return crossings % 2 == 1;
-    }
-
-    private void addGreenSpots(Coordinate c1, Coordinate c2) {
-        edges.add(new Edge(c1, c2));
+    private void addTiles(Coordinate c1, Coordinate c2) {
         if (c1.x() == c2.x()) {
             for (int i = Math.min(c1.y(), c2.y()); i <= Math.max(c1.y(), c2.y()); i++) {
                 redGreenTiles.add(new Coordinate(c1.x(), i));
@@ -131,6 +82,4 @@ public class Day9 {
             this(c1, c2, (Math.abs(c2.x() - c1.x()) + 1L) * (Math.abs(c2.y() - c1.y()) + 1L));
         }
     }
-
-    private record Edge(Coordinate c1, Coordinate c2) { }
 }
