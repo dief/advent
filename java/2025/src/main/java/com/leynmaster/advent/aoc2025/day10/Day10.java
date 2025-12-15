@@ -31,7 +31,7 @@ public class Day10 {
         logger.info("Part 1: {}", total);
         long solution = 0L;
         for (Machine machine : machines) {
-            solution += new MachineSolver(machine.joltsTarget, machine.buttons()).solve();
+            solution += new MachineSolver(machine.buttons(), machine.joltsTarget).solve();
         }
         logger.info("Part 2: {}", solution);
     }
