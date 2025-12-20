@@ -7,7 +7,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Day11 {
 //    private static final String INPUT = "../../inputs/2025/day11/test-1.txt";
