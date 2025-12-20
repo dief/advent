@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -96,6 +98,7 @@ public class Day10 {
         for (int i = 0; i < numButtons; i++) {
             buttons[i] = NumberUtils.parseInts(components[i + 1]);
         }
+        Arrays.sort(buttons, Comparator.comparingInt(a -> a.length));
         return buttons;
     }
 

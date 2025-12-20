@@ -47,7 +47,7 @@ class GaussianEliminator {
     }
 
     private int rowMax(int row, int col) {
-        double maxValue = 0;
+        double maxValue = 0.0;
         int maxRow = -1;
         for (int i = row; i < height; i++) {
             double value = Math.abs(matrix[i][col]);
