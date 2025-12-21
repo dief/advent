@@ -6,48 +6,30 @@ import com.leynmaster.advent.utils.map.Direction;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class JunctionGraphBuilder {
+public class JunctionGraphBuilder extends AbstractGraphBuilder {
     private final Map<Coordinate, Node> nodeMap = new HashMap<>();
-    private final char[][] matrix;
-    private final int height;
-    private final int width;
-    private final Coordinate start;
-    private final Coordinate end;
     
     public JunctionGraphBuilder(char[][] matrix) {
-        this.matrix = matrix;
-        this.height = matrix.length;
-        this.width = matrix[0].length;
-        start = new Coordinate(0, findOpening(matrix[0]));
-        end = new Coordinate(height - 1, findOpening(matrix[height - 1]));
-    }
-
-    public Coordinate getEnd() {
-        return end;
+        super(matrix);
     }
 
     public Node buildGraph() {
         LinkedList<Node> queue = new LinkedList<>();
         Set<Coordinate> seen = new HashSet<>();
-        Node startNode = new Node(start);
-        nodeMap.put(start, startNode);
-        queue.addLast(startNode);
+        Node startNode = new Node(getStart());
+        nodeMap.put(getStart(), startNode);
+        queue.addFirst(startNode);
         while (!queue.isEmpty()) {
             Node node = queue.removeFirst();
             Coordinate coordinate = node.getCoordinate();
             if (!seen.contains(coordinate)) {
-                seen.add(coordinate);
-                List<Coordinate> split = new ArrayList<>();
-                split.add(coordinate.move(Direction.UP));
-                split.add(coordinate.move(Direction.DOWN));
-                split.add(coordinate.move(Direction.LEFT));
-                split.add(coordinate.move(Direction.RIGHT));
-                split.stream().filter(this::inbounds).forEach(next ->
-                    computeVertex(coordinate, next).ifPresent(vertex -> {
-                        node.addVertex(vertex);
-                        queue.addLast(vertex.end());
-                    })
-                );
+                unseenNeighbors(coordinate, seen).stream().filter(this::inbounds)
+                        .map(next -> computeVertex(coordinate, next))
+                        .filter(Optional::isPresent)
+                        .map(Optional::get).forEach(vertex -> {
+                            node.addVertex(vertex);
+                            queue.addFirst(vertex.end());
+                        });
             }
         }
         return startNode;
@@ -57,12 +39,13 @@ public class JunctionGraphBuilder {
         int distance = 1;
         Set<Coordinate> seen = new HashSet<>();
         seen.add(node);
+        seen.add(next);
         Coordinate search = next;
         List<Coordinate> unseen = unseenNeighbors(search, seen);
         if (unseen.isEmpty()) {
             return Optional.empty();
         }
-        while (unseen.size() == 1 && search != end) {
+        while (unseen.size() == 1 && search != getEnd()) {
             distance++;
             seen.add(search);
             search = unseen.getFirst();
@@ -77,26 +60,12 @@ public class JunctionGraphBuilder {
     }
 
     private List<Coordinate> unseenNeighbors(Coordinate coordinate, Set<Coordinate> seen) {
+        seen.add(coordinate);
         List<Coordinate> next = new ArrayList<>();
         next.add(coordinate.move(Direction.UP));
         next.add(coordinate.move(Direction.DOWN));
         next.add(coordinate.move(Direction.LEFT));
         next.add(coordinate.move(Direction.RIGHT));
         return next.stream().filter(this::inbounds).filter(Predicate.not(seen::contains)).toList();
-    }
-
-    private boolean inbounds(Coordinate coordinate) {
-        int x = coordinate.x();
-        int y = coordinate.y();
-        return x >= 0 && x < height && y >= 0 && y < width && matrix[x][y] != '#';
-    }
-
-    private static int findOpening(char[] row) {
-        for (int i = 0; i < row.length; i++) {
-            if (row[i] == '.') {
-                return i;
-            }
-        }
-        return -1;
     }
 }

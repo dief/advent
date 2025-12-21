@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Day23 {
+//    private static final String INPUT_FILE = "../../inputs/2023/day23/test-1.txt";
     private static final String INPUT_FILE = "../../inputs/2023/day23/input.txt";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final char[][] mapMatrix;
