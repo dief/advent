@@ -83,14 +83,10 @@ class MachineSolver {
             }
             solution[i] = result;
         }
-        addVariables(solution, vars);
-        return solution;
-    }
-
-    private void addVariables(double[] solution, int[] vars) {
         for (int i = 0; i < freeCount; i++) {
             solution[height + i] = vars[i];
         }
+        return solution;
     }
 
     private void permutations(int remaining, int index, int[] current, List<int[]> results) {

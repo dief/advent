@@ -76,26 +76,26 @@ public class MatrixRockCalculator {
     private double[] xyRow(HailPosition p1, HailPosition p2) {
         HailCoordinate c1 = p1.location();
         HailCoordinate c2 = p2.location();
-        return new double[] {p1.deltaY() - p2.deltaY(), p2.deltaX() - p1.deltaX(), 0,
-                c2.y() - c1.y(), c1.x() - c2.x(), 0};
+        return new double[] {p2.deltaY() - p1.deltaY(), p1.deltaX() - p2.deltaX(), 0,
+                c1.y() - c2.y(), c2.x() - c1.x(), 0};
     }
 
     private double[] xzRow(HailPosition p1, HailPosition p2) {
         HailCoordinate c1 = p1.location();
         HailCoordinate c2 = p2.location();
-        return new double[] {p1.deltaZ() - p2.deltaZ(), 0, p2.deltaX() - p1.deltaX(),
-                c2.z() - c1.z(), 0, c1.x() - c2.x()};
+        return new double[] {p2.deltaZ() - p1.deltaZ(), 0, p1.deltaX() - p2.deltaX(),
+                c1.z() - c2.z(), 0, c2.x() - c1.x()};
     }
 
     private double xyRight(HailPosition p1, HailPosition p2) {
         HailCoordinate c1 = p1.location();
         HailCoordinate c2 = p2.location();
-        return c1.x() * p1.deltaY() - c1.y() * p1.deltaX() - c2.x() * p2.deltaY() + c2.y() * p2.deltaX();
+        return c2.x() * p2.deltaY() - c1.x() * p1.deltaY() + c1.y() * p1.deltaX() - c2.y() * p2.deltaX();
     }
 
     private long xzRight(HailPosition p1, HailPosition p2) {
         HailCoordinate c1 = p1.location();
         HailCoordinate c2 = p2.location();
-        return c1.x() * p1.deltaZ() - c1.z() * p1.deltaX() - c2.x() * p2.deltaZ() + c2.z() * p2.deltaX();
+        return c2.x() * p2.deltaZ() - c1.x() * p1.deltaZ() + c1.z() * p1.deltaX() - c2.z() * p2.deltaX();
     }
 }

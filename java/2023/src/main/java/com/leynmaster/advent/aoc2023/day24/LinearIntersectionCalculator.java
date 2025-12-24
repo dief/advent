@@ -28,17 +28,13 @@ public class LinearIntersectionCalculator {
     }
 
     private double[] intersection(HailPosition pos1, HailPosition pos2) {
-        HailCoordinate c1 = pos1.location();
-        HailCoordinate c2 = pos2.location();
-        long x1 = c1.x();
-        long x2 = c2.x();
         double a = (double)pos1.deltaY() / pos1.deltaX();
         double c = (double)pos2.deltaY() / pos2.deltaX();
         if (Math.abs(a - c) < 0.001) {
             return null;
         }
-        double b = c1.y() - a * x1;
-        double d = c2.y() - c * x2;
+        double b = pos1.location().y() - a * pos1.location().x();
+        double d = pos2.location().y() - c * pos2.location().x();
         double xMatch = (d - b) / (a - c);
         double yMatch = a * xMatch + b;
         if (inbounds(pos1, xMatch, yMatch) && inbounds(pos2, xMatch, yMatch)) {
