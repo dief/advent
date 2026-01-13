@@ -34,7 +34,7 @@ class MachineSolver {
 
     long solve() {
         if (freeCount == 0) {
-            double sum = 0;
+            double sum = 0.0;
             for (int i = 0; i < height; i++) {
                 sum += matrix[i][width - 1];
             }
@@ -60,7 +60,7 @@ class MachineSolver {
 
     private double solveFreeVars(int[] vars) {
         double[] solution = solutionArray(vars);
-        double sum = 0;
+        double sum = 0.0;
         for (double num : solution) {
             if (num < -0.0001) {
                 return -1.0;

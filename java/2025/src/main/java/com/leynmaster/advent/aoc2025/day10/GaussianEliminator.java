@@ -118,7 +118,7 @@ class GaussianEliminator {
                 return matrix[row][j];
             }
         }
-        return 0;
+        throw new IllegalStateException("No pivot found for row " + row);
     }
 
     private void setFreeVariables(boolean[] freeVars, int count) {
