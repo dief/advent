@@ -31,7 +31,7 @@ public class Day16 {
             String[] split = line.replaceAll("[=;,]", " ").split("\\s+");
             String name = split[1];
             int flow = Integer.parseInt(split[5]);
-            Valve valve = new Valve(name, flow, new ArrayList<>(Arrays.asList(split).subList(10, split.length)));
+            Valve valve = new Valve(name, flow, new HashSet<>(Arrays.asList(split).subList(10, split.length)));
             valves.put(name, valve);
             nodes.add(name);
             if (flow > 0) {
@@ -43,9 +43,9 @@ public class Day16 {
             shortenDistances(k);
         }
         logger.info("Starting");
-        logger.info("Part 1: {}", recurse(30, 0, valves.get("AA"), new HashSet<>()));
+        logger.info("Part 1: {}", maxPath(30, 0, valves.get("AA"), new HashSet<>()));
         results.clear();
-        recurse(26, 0, valves.get("AA"), new HashSet<>());
+        maxPath(26, 0, valves.get("AA"), new HashSet<>());
         logger.info("Part 2: {}", maxNonIntersecting());
     }
 
@@ -73,7 +73,7 @@ public class Day16 {
         }
     }
 
-    private int recurse(int minutes, int flow, Valve valve, Set<String> turnedOn) {
+    private int maxPath(int minutes, int flow, Valve valve, Set<String> turnedOn) {
         int remaining = 0;
         for (String next : flowNodes) {
             int time = minutes - distances.get(new Pair(valve.name(), next)) - 1;
@@ -83,7 +83,7 @@ public class Day16 {
                 int rate = time * valves.get(next).rate();
                 int last = results.getOrDefault(nextOn, 0);
                 results.put(nextOn, Math.max(last, flow + rate));
-                remaining = Math.max(remaining, rate + recurse(time, flow + rate, valves.get(next), nextOn));
+                remaining = Math.max(remaining, rate + maxPath(time, flow + rate, valves.get(next), nextOn));
             }
         }
         return remaining;
@@ -113,7 +113,7 @@ public class Day16 {
         return true;
     }
 
-    private record Valve(String name, int rate, List<String> next) { }
+    private record Valve(String name, int rate, Set<String> next) { }
 
     private record Pair(String source, String target) { }
 }
